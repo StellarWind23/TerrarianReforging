@@ -45,6 +45,11 @@ public abstract class ItemModelResolverMixin {
                     new Vector3f(old.translation()),
                     new Vector3f(old.scale()).mul(s)));   // base_scale * modifier
         }
+
+        if ( itemDisplayContext == ItemDisplayContext.GUI && s > 1F) {
+            itemStackRenderState.setOversizedInGui(true);
+        }
+
         itemStackRenderState.appendModelIdentityElement(s);   // keeps the GUI cache from sharing images
     }
 }

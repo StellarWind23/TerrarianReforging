@@ -41,8 +41,8 @@ public record TRQuality(
             RegistryCodecs.homogeneousList(Registries.ITEM).fieldOf("valid_items").forGetter(TRQuality::applicableTo),
             AttributeEntry.CODEC.listOf().fieldOf("modifiers").forGetter(TRQuality::modifiers),
             TextColor.CODEC.optionalFieldOf("color").forGetter(TRQuality::color),
-            ExtraCodecs.floatRange(0F, 1F).optionalFieldOf("hand_scale").forGetter(TRQuality::hand_scale),
-            ExtraCodecs.floatRange(0F, 1F).optionalFieldOf("gui_scale").forGetter(TRQuality::gui_scale)
+            ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("hand_scale").forGetter(TRQuality::hand_scale),
+            ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("gui_scale").forGetter(TRQuality::gui_scale)
             ).apply(q, TRQuality::new));
 
     //Reference codec: serializes an id referencing registered quality components
