@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "terrarian_reforging:item/reforging_template"
+  }
+}

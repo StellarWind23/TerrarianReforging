@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "*T*",
+    "*#*",
+    "***"
+  ],
+  "key": {
+    "*": "minecraft:emerald",
+    "T": "terrarian_reforging:reforging_template",
+    "#": "minecraft:cobbled_deepslate"
+  },
+  "result": {
+    "id": "terrarian_reforging:reforging_template",
+    "count": 2
+  }
+}
