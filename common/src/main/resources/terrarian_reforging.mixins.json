@@ -4,8 +4,12 @@
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [
+    "client.ItemModelResolverMixin",
+    "client.ItemStackRenderStateAccessor",
+    "client.LayerRenderStateAccessor"
   ],
   "mixins": [
+    "ItemStackMixin"
   ],
   "injectors": {
     "defaultRequire": 1

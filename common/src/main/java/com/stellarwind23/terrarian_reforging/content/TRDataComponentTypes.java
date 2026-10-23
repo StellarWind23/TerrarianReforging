@@ -14,13 +14,25 @@ public class TRDataComponentTypes {
 
     private static DeferredRegister<DataComponentType<?>> TR_COMPONENTS;
 
-    private static <T>RegistrySupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> operator) {
+    public static RegistrySupplier<DataComponentType<TRQualityComponent>> TR_QUALITY_COMPONENT;
+
+    public static void init() {
+
+        TR_COMPONENTS = DeferredRegister.create(TerrarianReforging.MOD_ID, Registries.DATA_COMPONENT_TYPE);
+
+        TR_QUALITY_COMPONENT = registerComponent(TerrarianReforging.CMP_NAME, builder ->
+                builder.persistent(TRQualityComponent.CODEC)
+                .networkSynchronized(TRQualityComponent.STREAM_CODEC)
+                .cacheEncoding()
+                );
+
+        TR_COMPONENTS.register();
+    }
+
+    private static <T> RegistrySupplier<DataComponentType<T>> registerComponent(String name, UnaryOperator<DataComponentType.Builder<T>> unaryOperator) {
         return TR_COMPONENTS.register(name, () -> {
-            ResourceKey.create(Registries.DATA_COMPONENT_TYPE, Identifier.fromNamespaceAndPath(
-                    TerrarianReforging.MOD_ID,
-                    name
-            ));
-            return operator.apply(DataComponentType.builder()).build();
+            ResourceKey.create(Registries.DATA_COMPONENT_TYPE, Identifier.fromNamespaceAndPath(TerrarianReforging.MOD_ID, name));
+            return unaryOperator.apply(DataComponentType.builder()).build();
         });
     }
 }
