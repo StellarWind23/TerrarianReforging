@@ -1,7 +1,6 @@
 package com.stellarwind23.terrarian_reforging.mixin.client;
 
 import net.minecraft.client.renderer.item.ItemStackRenderState;
-import org.apache.commons.lang3.NotImplementedException;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
@@ -9,8 +8,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface ItemStackRenderStateAccessor {
 
     @Accessor("activeLayerCount")
-    default int tr$activeLayerCount() { throw new NotImplementedException();}
+    int tr$activeLayerCount();
 
     @Accessor("layers")
-    default ItemStackRenderState.LayerRenderState[] tr$layers() { throw new NotImplementedException(); }
+    ItemStackRenderState.LayerRenderState[] tr$layers();
 }

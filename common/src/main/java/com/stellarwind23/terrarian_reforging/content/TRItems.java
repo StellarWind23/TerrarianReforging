@@ -7,6 +7,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 
 import java.util.function.Function;
 
@@ -20,7 +21,7 @@ public class TRItems {
 
         TR_ITEMS = DeferredRegister.create(TerrarianReforging.MOD_ID, Registries.ITEM);
 
-        REFORGING_TEMPLATE = register("reforging_template", Item::new);
+        REFORGING_TEMPLATE = register("reforging_template", properties -> new Item(properties.rarity(Rarity.UNCOMMON)));
 
         TR_ITEMS.register();
     }

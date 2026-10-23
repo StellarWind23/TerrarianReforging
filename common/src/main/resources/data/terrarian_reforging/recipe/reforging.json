@@ -1,0 +1,6 @@
+{
+  "type": "terrarian_reforging:reforge",
+  "template": "terrarian_reforging:reforging_template",
+  "base": "#terrarian_reforging:accepted_equipment",
+  "addition": "#terrarian_reforging:reforge_materials"
+}
