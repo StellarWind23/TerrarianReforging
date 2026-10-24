@@ -4,7 +4,7 @@
   "modifiers": [
     {
       "attribute": "minecraft:attack_damage",
-      "amount": 0.10,
+      "amount": 0.15,
       "operation": "add_multiplied_total",
       "slot": "mainhand"
     },

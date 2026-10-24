@@ -7,11 +7,11 @@
   ],
   "key": {
     "*": "minecraft:emerald",
-    "T": "terrarian_reforging:reforging_template",
+    "T": "terrarian_reforging:reforging_token",
     "#": "minecraft:cobbled_deepslate"
   },
   "result": {
-    "id": "terrarian_reforging:reforging_template",
+    "id": "terrarian_reforging:reforging_token",
     "count": 2
   }
 }

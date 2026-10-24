@@ -6,7 +6,9 @@ import com.stellarwind23.terrarian_reforging.util.client.TRHideState;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
@@ -18,6 +20,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipProvider;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import org.jspecify.annotations.NonNull;
 
 import java.util.function.BiConsumer;
@@ -32,24 +35,33 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
             TRQuality.STREAM_CODEC.map(TRQualityComponent::new,TRQualityComponent::quality);
 
     @Override
-    public void addToTooltip(Item.@NonNull TooltipContext ctx, @NonNull Consumer<Component> consumer, @NonNull TooltipFlag flag, @NonNull DataComponentGetter getter) {
+    public void addToTooltip(Item.@NonNull TooltipContext ctx, @NonNull Consumer<Component> consumer,
+                             @NonNull TooltipFlag flag, @NonNull DataComponentGetter getter) {
 
-        //Hide Tooltip
-        if(TRHideState.hideQuality()) return;
+        if (TRHideState.hideQuality()) return;
 
         TRQuality q = quality.value();
 
+        // count what we print, so an empty quality doesn't leave a stray blank line
+        int[] printed = {0};
+        Consumer<Component> out = c -> { printed[0]++; consumer.accept(c); };
+
         for (TRQuality.AttributeEntry ae : q.modifiers()) {
-            consumer.accept(formatLine(ae));
+            out.accept(formatLine(ae));
         }
 
-        q.durabilityScale().ifPresent(s -> scaleLine("durability", s, consumer));
+        q.durabilityScale().ifPresent(s -> scaleLine("durability", s, out));
         q.enchantability().ifPresent(b -> {
             if (b == 0) return;
-            consumer.accept(Component.literal((b > 0 ? "+" : "") + b + " ")
+            out.accept(Component.literal((b > 0 ? "+" : "") + b + " ")
                     .append(Component.translatable("tr_quality.tooltip.enchantability"))
-                    .withStyle(b > 0 ? ChatFormatting.DARK_GREEN : ChatFormatting.DARK_RED));
+                    .withStyle(b > 0 ? ChatFormatting.GREEN : ChatFormatting.RED));
         });
+
+        boolean enchanted = !getter.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY).isEmpty();
+        if (enchanted && printed[0] > 0) {
+            consumer.accept(CommonComponents.EMPTY);
+        }
     }
 
     private static Component formatLine(TRQuality.AttributeEntry ae) {
@@ -84,7 +96,7 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
         consumer.accept(
                 Component.literal((pos ? "+" : "") + pct + "% ")
                         .append(Component.translatable(TerrarianReforging.CMP_NAME + ".tooltip." + key))
-                        .withStyle(pos ? ChatFormatting.GREEN : ChatFormatting.DARK_RED));
+                        .withStyle(pos ? ChatFormatting.GREEN : ChatFormatting.RED));
     }
 
     public void forEachModifier(EquipmentSlot slot, BiConsumer<Holder<Attribute>, AttributeModifier> out) {

@@ -1,5 +1,5 @@
 {
-  "weight": 2,
+  "weight": 4,
   "valid_items": "#terrarian_reforging:accepted_equipment",
   "modifiers": [],
   "durability_scale": 0.85
