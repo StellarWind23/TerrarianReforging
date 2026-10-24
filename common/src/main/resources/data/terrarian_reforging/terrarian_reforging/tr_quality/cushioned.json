@@ -1,0 +1,12 @@
+{
+  "weight": 3,
+  "valid_items": "#minecraft:foot_armor",
+  "modifiers": [
+    {
+      "attribute": "minecraft:fall_damage_multiplier",
+      "amount": -0.15,
+      "operation": "add_multiplied_total",
+      "slot": "feet"
+    }
+  ]
+}

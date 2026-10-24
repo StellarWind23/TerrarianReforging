@@ -1,0 +1,13 @@
+{
+  "weight": 3,
+  "valid_items": "#terrarian_reforging:armor",
+  "modifiers": [
+    {
+      "attribute": "minecraft:armor_toughness",
+      "amount": 0.5,
+      "operation": "add_value",
+      "slot": "armor"
+    }
+  ],
+  "rarity": "uncommon"
+}

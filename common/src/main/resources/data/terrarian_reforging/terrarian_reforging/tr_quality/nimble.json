@@ -1,0 +1,12 @@
+{
+  "weight": 4,
+  "valid_items": "#terrarian_reforging:melee_weapon",
+  "modifiers": [
+    {
+      "attribute": "minecraft:attack_speed",
+      "amount": 0.1,
+      "operation": "add_multiplied_total",
+      "slot": "mainhand"
+    }
+  ]
+}

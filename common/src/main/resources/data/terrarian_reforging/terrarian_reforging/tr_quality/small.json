@@ -10,10 +10,11 @@
     },
     {
       "attribute": "minecraft:attack_knockback",
-      "amount": -0.25,
-      "operation": "add_multiplied_total",
+      "amount": -0.1,
+      "operation": "add_value",
       "slot": "mainhand"
-    },{
+    },
+    {
       "attribute": "minecraft:entity_interaction_range",
       "amount": -0.1,
       "operation": "add_multiplied_total",

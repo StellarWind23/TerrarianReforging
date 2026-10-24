@@ -1,0 +1,12 @@
+{
+  "weight": 3,
+  "valid_items": "#minecraft:foot_armor",
+  "modifiers": [
+    {
+      "attribute": "minecraft:jump_strength",
+      "amount": 0.2,
+      "operation": "add_multiplied_total",
+      "slot": "feet"
+    }
+  ]
+}

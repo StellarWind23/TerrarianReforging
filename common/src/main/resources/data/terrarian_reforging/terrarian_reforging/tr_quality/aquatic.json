@@ -1,0 +1,13 @@
+{
+  "weight": 3,
+  "valid_items": "#minecraft:head_armor",
+  "modifiers": [
+    {
+      "attribute": "minecraft:oxygen_bonus",
+      "amount": 1.0,
+      "operation": "add_value",
+      "slot": "head"
+    }
+  ],
+  "rarity": "uncommon"
+}

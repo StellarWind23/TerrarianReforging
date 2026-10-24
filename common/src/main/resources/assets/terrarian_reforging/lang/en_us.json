@@ -26,5 +26,22 @@
     "tr_quality.terrarian_reforging.swift": "Swift %s",
     "tr_quality.terrarian_reforging.slow": "Slow %s",
     "tr_quality.terrarian_reforging.long": "Long %s",
-    "tr_quality.terrarian_reforging.short": "Short %s"
+    "tr_quality.terrarian_reforging.short": "Short %s",
+    "tr_quality.terrarian_reforging.aquatic": "Aquatic %s",
+    "tr_quality.terrarian_reforging.cushioned": "Cushioned %s",
+    "tr_quality.terrarian_reforging.dangerous": "Dangerous %s",
+    "tr_quality.terrarian_reforging.forceful": "Forceful %s",
+    "tr_quality.terrarian_reforging.gilded": "Gilded %s",
+    "tr_quality.terrarian_reforging.hardy": "Hardy %s",
+    "tr_quality.terrarian_reforging.hasty": "Hasty %s",
+    "tr_quality.terrarian_reforging.heavy": "Heavy %s",
+    "tr_quality.terrarian_reforging.masterwork": "Masterwork %s",
+    "tr_quality.terrarian_reforging.nimble": "Nimble %s",
+    "tr_quality.terrarian_reforging.rapid": "Rapid %s",
+    "tr_quality.terrarian_reforging.reinforced": "Reinforced %s",
+    "tr_quality.terrarian_reforging.savage": "Savage %s",
+    "tr_quality.terrarian_reforging.sluggish": "Sluggish %s",
+    "tr_quality.terrarian_reforging.springy": "Springy %s",
+    "tr_quality.terrarian_reforging.steadfast": "Steadfast %s",
+    "tr_quality.terrarian_reforging.warding": "Warding %s"
 }
