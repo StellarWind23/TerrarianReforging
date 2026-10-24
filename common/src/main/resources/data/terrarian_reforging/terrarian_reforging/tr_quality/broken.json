@@ -1,6 +1,5 @@
 {
   "weight": 2,
-  "name_color": "red",
   "valid_items": "#terrarian_reforging:accepted_equipment",
   "modifiers": [],
   "durability_scale": 0.8

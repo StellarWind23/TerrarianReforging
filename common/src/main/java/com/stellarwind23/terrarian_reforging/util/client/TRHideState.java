@@ -1,9 +1,9 @@
 package com.stellarwind23.terrarian_reforging.util.client;
 
-public final class TRCHideState {
+public final class TRHideState {
     private static final ThreadLocal<Boolean> HIDE_QUALITY = ThreadLocal.withInitial(() -> false);
 
-    private TRCHideState() {}
+    private TRHideState() {}
 
     public static boolean hideQuality() {
         return HIDE_QUALITY.get();

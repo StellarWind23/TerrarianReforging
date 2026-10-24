@@ -3,7 +3,7 @@ package com.stellarwind23.terrarian_reforging.mixin.client;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.stellarwind23.terrarian_reforging.content.TRDataComponentTypes;
-import com.stellarwind23.terrarian_reforging.util.client.TRCHideState;
+import com.stellarwind23.terrarian_reforging.util.client.TRHideState;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.SmithingScreen;
 import net.minecraft.network.chat.Component;
@@ -26,11 +26,11 @@ public abstract class AbstractContainerScreenMixin {
                 && hoveredSlot != null && hoveredSlot.index == 3   // smithing result slot
                 && itemStack.has(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
 
-        boolean prev = TRCHideState.setHideQuality(hide);
+        boolean prev = TRHideState.setHideQuality(hide);
         try {
             return original.call(itemStack);
         } finally {
-            TRCHideState.setHideQuality(prev);
+            TRHideState.setHideQuality(prev);
         }
     }
 }
