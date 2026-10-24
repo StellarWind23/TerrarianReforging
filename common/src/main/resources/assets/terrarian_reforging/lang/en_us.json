@@ -1,3 +1,6 @@
 {
-    "item.terrarian_reforging.reforging_template": "Reforging Template"
+    "item.terrarian_reforging.reforging_template": "Reforging Template",
+    "tr_quality.tooltip.size": "Size",
+    "tr_quality.tooltip.durability": "Durability",
+    "tr_quality.terrarian_reforging.godly": "Godly %s"
 }

@@ -1,6 +1,7 @@
 package com.stellarwind23.terrarian_reforging.content;
 
 import com.mojang.serialization.Codec;
+import com.stellarwind23.terrarian_reforging.TerrarianReforging;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentGetter;
@@ -29,12 +30,16 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
             TRQuality.STREAM_CODEC.map(TRQualityComponent::new,TRQualityComponent::quality);
 
     @Override
-    public void addToTooltip(Item.@NonNull TooltipContext tooltipContext, @NonNull Consumer<Component> consumer, @NonNull TooltipFlag tooltipFlag, @NonNull DataComponentGetter dataComponentGetter) {
-        for (TRQuality.AttributeEntry ae: quality.value().modifiers()) {
+    public void addToTooltip(Item.@NonNull TooltipContext ctx, @NonNull Consumer<Component> consumer, @NonNull TooltipFlag flag, @NonNull DataComponentGetter getter) {
+        TRQuality q = quality.value();
+
+        for (TRQuality.AttributeEntry ae : q.modifiers()) {
             consumer.accept(formatLine(ae));
         }
-    }
 
+        q.handScale().ifPresent(s -> scaleLine("size", s, consumer));
+        q.durabilityScale().ifPresent(s -> scaleLine("durability", s, consumer));
+    }
     private static Component formatLine(TRQuality.AttributeEntry ae) {
         boolean pos = ae.amount() >= 0;
         boolean per = ae.operation() != AttributeModifier.Operation.ADD_VALUE;
@@ -46,6 +51,17 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
         return Component.literal(txt)
                 .append(Component.translatable(ae.attribute().value().getDescriptionId()))
                 .withStyle(pos ? ChatFormatting.GREEN : ChatFormatting.RED);
+    }
+
+    private static void scaleLine(String key, float scale, Consumer<Component> consumer) {
+        int pct = Math.round((scale - 1F) * 100F);
+        if (pct == 0) return; // a scale of 1.0 changes nothing, so don't show a line
+
+        boolean pos = pct > 0;
+        consumer.accept(
+                Component.literal((pos ? "+" : "") + pct + "% ")
+                        .append(Component.translatable(TerrarianReforging.CMP_NAME + ".tooltip." + key))
+                        .withStyle(pos ? ChatFormatting.DARK_GREEN : ChatFormatting.DARK_RED));
     }
 
     public void forEachModifier(EquipmentSlot slot, BiConsumer<Holder<Attribute>, AttributeModifier> out) {

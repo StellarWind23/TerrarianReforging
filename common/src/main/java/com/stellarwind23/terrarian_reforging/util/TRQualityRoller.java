@@ -4,6 +4,7 @@ import com.stellarwind23.terrarian_reforging.TerrarianReforging;
 import com.stellarwind23.terrarian_reforging.content.TRDataComponentTypes;
 import com.stellarwind23.terrarian_reforging.content.TRQuality;
 import com.stellarwind23.terrarian_reforging.content.TRQualityComponent;
+import com.stellarwind23.terrarian_reforging.event.TRQualityEvents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceKey;
@@ -46,6 +47,8 @@ public final class TRQualityRoller {
     }
 
     public static void apply(ItemStack stack, Holder<TRQuality> q) {
+        TRQualityComponent old = stack.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
         stack.set(TRDataComponentTypes.TR_QUALITY_COMPONENT.get(), new TRQualityComponent(q));
+        TRQualityEvents.QUALITY_APPLIED.invoker().onApplied(stack, q, old == null ? null : old.quality());
     }
 }

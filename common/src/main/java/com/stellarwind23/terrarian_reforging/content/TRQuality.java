@@ -9,8 +9,6 @@ import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
@@ -23,6 +21,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.Rarity;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,18 +30,20 @@ public record TRQuality(
         int weight,
         HolderSet<Item> applicableTo,
         List<AttributeEntry> modifiers,
-        Optional<TextColor> color,
-        Optional<Float> hand_scale,
-        Optional<Float> gui_scale)
+        Optional<Rarity> rarity,
+        Optional<Float> handScale,
+        Optional<Float> guiScale,
+        Optional<Float> durabilityScale)
 {
 
     public static final Codec<TRQuality> DIRECT_CODEC = RecordCodecBuilder.create(q -> q.group(
             ExtraCodecs.POSITIVE_INT.fieldOf("weight").forGetter(TRQuality::weight),
             RegistryCodecs.homogeneousList(Registries.ITEM).fieldOf("valid_items").forGetter(TRQuality::applicableTo),
             AttributeEntry.CODEC.listOf().fieldOf("modifiers").forGetter(TRQuality::modifiers),
-            TextColor.CODEC.optionalFieldOf("color").forGetter(TRQuality::color),
-            ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("hand_scale").forGetter(TRQuality::hand_scale),
-            ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("gui_scale").forGetter(TRQuality::gui_scale)
+            Rarity.CODEC.optionalFieldOf("rarity").forGetter(TRQuality::rarity),
+            ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("hand_scale").forGetter(TRQuality::handScale),
+            ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("gui_scale").forGetter(TRQuality::guiScale),
+            ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("durability_scale").forGetter(TRQuality::durabilityScale)
             ).apply(q, TRQuality::new));
 
     //Reference codec: serializes an id referencing registered quality components
@@ -84,16 +85,12 @@ public record TRQuality(
         return Component.translatable(translationKey(id), baseName);
     }
 
-    public Style styleOr(Style fallback) {
-        return color.map(fallback::withColor).orElse(fallback);
-    }
-
     public float scaleFor(ItemDisplayContext ctx) {
         return switch (ctx) {
-            case GUI -> gui_scale.orElse(1F);
+            case GUI -> guiScale.orElse(1F);
             case FIRST_PERSON_LEFT_HAND, FIRST_PERSON_RIGHT_HAND,
                  THIRD_PERSON_LEFT_HAND, THIRD_PERSON_RIGHT_HAND,
-                 GROUND -> hand_scale.orElse(1F);
+                 GROUND -> handScale.orElse(1F);
             default -> 1F;
         };
     }

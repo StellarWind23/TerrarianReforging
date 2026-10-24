@@ -1,0 +1,20 @@
+{
+  "weight": 1,
+  "valid_items": "#minecraft:swords",
+  "modifiers": [
+    {
+      "attribute": "minecraft:attack_damage",
+      "amount": 0.15,
+      "operation": "add_multiplied_total",
+      "slot": "mainhand"
+    },
+    {
+      "attribute": "minecraft:attack_knockback",
+      "amount": 0.12,
+      "operation": "add_value",
+      "slot": "mainhand"
+    }
+  ],
+  "rarity": "epic",
+  "durability_scale": 1.3
+}
