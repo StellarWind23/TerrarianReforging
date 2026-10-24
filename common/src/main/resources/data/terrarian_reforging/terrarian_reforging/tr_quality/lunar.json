@@ -1,0 +1,25 @@
+{
+  "weight": 1,
+  "valid_items": "#minecraft:foot_armor",
+  "modifiers": [
+    {
+      "attribute": "minecraft:safe_fall_distance",
+      "amount": 8,
+      "operation": "add_value",
+      "slot": "feet"
+    },
+    {
+      "attribute": "minecraft:gravity",
+      "amount": -0.83,
+      "operation": "add_multiplied_total",
+      "slot": "feet"
+    },
+    {
+      "attribute": "minecraft:fall_damage_multiplier",
+      "amount": -0.83,
+      "operation": "add_multiplied_total",
+      "slot": "feet"
+    }
+  ],
+  "rarity": "epic"
+}

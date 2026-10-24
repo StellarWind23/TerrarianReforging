@@ -4,7 +4,9 @@ import com.stellarwind23.terrarian_reforging.content.TRDataComponentTypes;
 import com.stellarwind23.terrarian_reforging.content.TRItems;
 import com.stellarwind23.terrarian_reforging.content.TRQuality;
 import com.stellarwind23.terrarian_reforging.content.TRRecipeSerializers;
-import com.stellarwind23.terrarian_reforging.event.TRQualityEvents;
+import com.stellarwind23.terrarian_reforging.content.command.TRQualityCommand;
+import com.stellarwind23.terrarian_reforging.content.event.TRQualityEvents;
+import dev.architectury.event.events.common.CommandRegistrationEvent;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
@@ -43,6 +45,8 @@ public final class TerrarianReforging {
         TRDataComponentTypes.init();
         TRItems.init();
         TRRecipeSerializers.init();
+
+        CommandRegistrationEvent.EVENT.register((dispatcher, ctx, selection) -> TRQualityCommand.register(dispatcher, ctx));
 
         TRQualityEvents.QUALITY_APPLIED.register((stack, quality, previous) -> {
             int base = stack.getItem().components().getOrDefault(DataComponents.MAX_DAMAGE, 0);

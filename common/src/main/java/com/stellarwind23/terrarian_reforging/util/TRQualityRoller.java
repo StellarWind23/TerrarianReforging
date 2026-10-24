@@ -4,12 +4,15 @@ import com.stellarwind23.terrarian_reforging.TerrarianReforging;
 import com.stellarwind23.terrarian_reforging.content.TRDataComponentTypes;
 import com.stellarwind23.terrarian_reforging.content.TRQuality;
 import com.stellarwind23.terrarian_reforging.content.TRQualityComponent;
-import com.stellarwind23.terrarian_reforging.event.TRQualityEvents;
+import com.stellarwind23.terrarian_reforging.content.event.TRQualityEvents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantable;
 
 import java.util.List;
 import java.util.Optional;
@@ -58,5 +61,28 @@ public final class TRQualityRoller {
         if (rnd.nextFloat() >= TerrarianReforging.FIRST_CRAFT_CHANCE) return;
 
         roll(regs, stack, rnd).ifPresent(q -> apply(stack, q));
+    }
+
+    public static void clear(ItemStack stack) {
+        stack.remove(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
+
+        DataComponentMap proto = stack.getItem().components();
+
+        int base = proto.getOrDefault(DataComponents.MAX_DAMAGE, 0);
+        if (base > 0) {
+            int oldMax = stack.getMaxDamage();
+            int damage = stack.getDamageValue();
+            stack.set(DataComponents.MAX_DAMAGE, base);
+            if (oldMax > 0) {
+                stack.setDamageValue(Math.min(base - 1, Math.round((float) damage / oldMax * base)));
+            }
+        }
+
+        Enchantable ench = proto.get(DataComponents.ENCHANTABLE);
+        if (ench != null) stack.set(DataComponents.ENCHANTABLE, ench);
+    }
+
+    public static boolean supports(Holder<TRQuality> quality, ItemStack stack) {
+        return quality.value().applicableTo().contains(stack.getItemHolder());
     }
 }

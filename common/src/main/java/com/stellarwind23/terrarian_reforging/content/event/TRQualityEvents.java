@@ -1,4 +1,4 @@
-package com.stellarwind23.terrarian_reforging.event;
+package com.stellarwind23.terrarian_reforging.content.event;
 
 import com.stellarwind23.terrarian_reforging.content.TRQuality;
 import dev.architectury.event.Event;

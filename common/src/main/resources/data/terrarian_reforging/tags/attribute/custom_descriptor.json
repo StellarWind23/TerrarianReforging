@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "minecraft:entity_interaction_range",
-    "minecraft:block_interaction_range"
+    "minecraft:block_interaction_range",
+    "minecraft:fall_damage_multiplier"
   ]
 }
