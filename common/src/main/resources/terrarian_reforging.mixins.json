@@ -5,11 +5,14 @@
   "minVersion": "0.8",
   "client": [
     "client.AbstractContainerScreenMixin",
+    "client.AnvilScreenMixin",
     "client.ItemModelResolverMixin",
     "client.ItemStackRenderStateAccessor",
     "client.LayerRenderStateAccessor"
   ],
   "mixins": [
+    "AnvilMenuMixin",
+    "CraftingMenuMixin",
     "ItemStackMixin"
   ],
   "injectors": {

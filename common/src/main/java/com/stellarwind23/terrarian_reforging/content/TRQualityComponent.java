@@ -2,7 +2,7 @@ package com.stellarwind23.terrarian_reforging.content;
 
 import com.mojang.serialization.Codec;
 import com.stellarwind23.terrarian_reforging.TerrarianReforging;
-import com.stellarwind23.terrarian_reforging.util.client.TRClientState;
+import com.stellarwind23.terrarian_reforging.util.client.TRCHideState;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentGetter;
@@ -35,7 +35,7 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
     public void addToTooltip(Item.@NonNull TooltipContext ctx, @NonNull Consumer<Component> consumer, @NonNull TooltipFlag flag, @NonNull DataComponentGetter getter) {
 
         //Hide Tooltip
-        if(TRClientState.hideQuality()) return;
+        if(TRCHideState.hideQuality()) return;
 
         TRQuality q = quality.value();
 

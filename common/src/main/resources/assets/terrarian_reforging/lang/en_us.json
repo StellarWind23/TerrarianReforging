@@ -12,5 +12,7 @@
     "tr_quality.terrarian_reforging.sturdy": "Sturdy %s",
     "tr_quality.terrarian_reforging.superior": "Superior %s",
     "tr_quality.terrarian_reforging.strong": "Strong %s",
-    "tr_quality.terrarian_reforging.weak": "Weak %s"
+    "tr_quality.terrarian_reforging.broken": "Broken %s",
+    "tr_quality.terrarian_reforging.mundane": "Mundane %s",
+    "tr_quality.terrarian_reforging.mystic": "Mystic %s"
 }
