@@ -55,12 +55,7 @@ public abstract class ItemStackMixin {
         if(player.level().isClientSide()) return; //Server only
 
         ItemStack self = (ItemStack) (Object) this;
-        if(!TRQualityRoller.accepts(self)) return;
-        if(self.has(TRDataComponentTypes.TR_QUALITY_COMPONENT.get())) return; //Already has quality
-        if(player.getRandom().nextFloat() >= TerrarianReforging.FIRST_CRAFT_CHANCE) return;
-
-        TRQualityRoller.roll(player.level().registryAccess(), self, player.getRandom())
-                .ifPresent(q -> TRQualityRoller.apply(self, q));
+        TRQualityRoller.tryRollNew(player.level().registryAccess(), self, player.getRandom());
     }
 
     @ModifyReturnValue(method = "getHoverName", at = @At("RETURN"))

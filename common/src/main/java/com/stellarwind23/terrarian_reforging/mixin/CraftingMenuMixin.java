@@ -20,11 +20,6 @@ public abstract class CraftingMenuMixin {
         if (i != 0 || player.level().isClientSide()) return;   // 0 = result slot
 
         ItemStack result = ((AbstractContainerMenu) (Object) this).getSlot(0).getItem();
-        if (result.isEmpty() || !TRQualityRoller.accepts(result)) return;
-        if (result.has(TRDataComponentTypes.TR_QUALITY_COMPONENT.get())) return;
-        if (player.getRandom().nextFloat() >= TerrarianReforging.FIRST_CRAFT_CHANCE) return;
-
-        TRQualityRoller.roll(player.level().registryAccess(), result, player.getRandom())
-                .ifPresent(q -> TRQualityRoller.apply(result, q));
+        TRQualityRoller.tryRollNew(player.level().registryAccess(), result, player.getRandom());
     }
 }

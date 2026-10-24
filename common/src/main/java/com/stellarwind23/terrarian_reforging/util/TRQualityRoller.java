@@ -51,4 +51,12 @@ public final class TRQualityRoller {
         stack.set(TRDataComponentTypes.TR_QUALITY_COMPONENT.get(), new TRQualityComponent(q));
         TRQualityEvents.QUALITY_APPLIED.invoker().onApplied(stack, q, old == null ? null : old.quality());
     }
+
+    public static void tryRollNew(HolderLookup.Provider regs, ItemStack stack, RandomSource rnd) {
+        if (stack.isEmpty() || !accepts(stack)) return;
+        if (stack.has(TRDataComponentTypes.TR_QUALITY_COMPONENT.get())) return;   // keeps qualities a table set itself
+        if (rnd.nextFloat() >= TerrarianReforging.FIRST_CRAFT_CHANCE) return;
+
+        roll(regs, stack, rnd).ifPresent(q -> apply(stack, q));
+    }
 }
