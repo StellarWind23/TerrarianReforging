@@ -1,7 +1,5 @@
 package com.stellarwind23.terrarian_reforging.mixin;
 
-import com.stellarwind23.terrarian_reforging.TerrarianReforging;
-import com.stellarwind23.terrarian_reforging.content.TRDataComponentTypes;
 import com.stellarwind23.terrarian_reforging.util.TRQualityRoller;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;

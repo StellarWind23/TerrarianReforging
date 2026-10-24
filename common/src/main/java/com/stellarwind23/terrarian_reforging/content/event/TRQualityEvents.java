@@ -1,6 +1,6 @@
 package com.stellarwind23.terrarian_reforging.content.event;
 
-import com.stellarwind23.terrarian_reforging.content.TRQuality;
+import com.stellarwind23.terrarian_reforging.content.component.TRQuality;
 import dev.architectury.event.Event;
 import dev.architectury.event.EventFactory;
 import net.minecraft.core.Holder;

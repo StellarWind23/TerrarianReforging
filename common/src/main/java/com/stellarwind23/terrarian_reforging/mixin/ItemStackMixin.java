@@ -1,10 +1,9 @@
 package com.stellarwind23.terrarian_reforging.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import com.stellarwind23.terrarian_reforging.TerrarianReforging;
-import com.stellarwind23.terrarian_reforging.content.TRDataComponentTypes;
-import com.stellarwind23.terrarian_reforging.content.TRQuality;
-import com.stellarwind23.terrarian_reforging.content.TRQualityComponent;
+import com.stellarwind23.terrarian_reforging.content.component.TRDataComponentTypes;
+import com.stellarwind23.terrarian_reforging.content.component.TRQuality;
+import com.stellarwind23.terrarian_reforging.content.component.TRQualityComponent;
 import com.stellarwind23.terrarian_reforging.util.TRQualityRoller;
 import com.stellarwind23.terrarian_reforging.util.TRTooltipFolding;
 import com.stellarwind23.terrarian_reforging.util.client.TRHideReforgeState;

@@ -1,4 +1,4 @@
-package com.stellarwind23.terrarian_reforging.content;
+package com.stellarwind23.terrarian_reforging.content.crafting;
 
 import com.mojang.serialization.MapCodec;
 import com.stellarwind23.terrarian_reforging.TerrarianReforging;

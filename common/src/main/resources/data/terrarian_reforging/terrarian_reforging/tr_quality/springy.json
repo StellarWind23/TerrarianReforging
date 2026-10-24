@@ -1,5 +1,5 @@
 {
-  "weight": 3,
+  "weight": 2,
   "valid_items": "#minecraft:foot_armor",
   "modifiers": [
     {
@@ -8,5 +8,6 @@
       "operation": "add_multiplied_total",
       "slot": "feet"
     }
-  ]
+  ],
+  "rarity": "rare"
 }

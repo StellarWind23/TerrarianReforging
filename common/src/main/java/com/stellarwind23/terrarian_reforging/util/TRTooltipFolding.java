@@ -1,7 +1,7 @@
 package com.stellarwind23.terrarian_reforging.util;
 
-import com.stellarwind23.terrarian_reforging.content.TRQuality;
-import com.stellarwind23.terrarian_reforging.content.TRQualityComponent;
+import com.stellarwind23.terrarian_reforging.content.component.TRQuality;
+import com.stellarwind23.terrarian_reforging.content.component.TRQualityComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.CommonComponents;

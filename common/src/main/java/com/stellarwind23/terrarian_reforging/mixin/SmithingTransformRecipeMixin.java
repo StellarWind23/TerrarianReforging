@@ -1,8 +1,8 @@
 package com.stellarwind23.terrarian_reforging.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import com.stellarwind23.terrarian_reforging.content.TRDataComponentTypes;
-import com.stellarwind23.terrarian_reforging.content.TRQualityComponent;
+import com.stellarwind23.terrarian_reforging.content.component.TRDataComponentTypes;
+import com.stellarwind23.terrarian_reforging.content.component.TRQualityComponent;
 import com.stellarwind23.terrarian_reforging.util.TRQualityRoller;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.SmithingTransformRecipe;

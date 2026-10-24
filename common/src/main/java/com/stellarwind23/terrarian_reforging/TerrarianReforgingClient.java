@@ -1,7 +1,7 @@
 package com.stellarwind23.terrarian_reforging;
 
-import com.stellarwind23.terrarian_reforging.content.TRDataComponentTypes;
-import com.stellarwind23.terrarian_reforging.content.TRQualityComponent;
+import com.stellarwind23.terrarian_reforging.content.component.TRDataComponentTypes;
+import com.stellarwind23.terrarian_reforging.content.component.TRQualityComponent;
 import dev.architectury.event.events.client.ClientTooltipEvent;
 import net.minecraft.network.chat.Component;
 

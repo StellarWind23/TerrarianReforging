@@ -1,9 +1,9 @@
 package com.stellarwind23.terrarian_reforging;
 
-import com.stellarwind23.terrarian_reforging.content.TRDataComponentTypes;
+import com.stellarwind23.terrarian_reforging.content.component.TRDataComponentTypes;
 import com.stellarwind23.terrarian_reforging.content.TRItems;
-import com.stellarwind23.terrarian_reforging.content.TRQuality;
-import com.stellarwind23.terrarian_reforging.content.TRRecipeSerializers;
+import com.stellarwind23.terrarian_reforging.content.component.TRQuality;
+import com.stellarwind23.terrarian_reforging.content.crafting.TRRecipeSerializers;
 import com.stellarwind23.terrarian_reforging.content.command.TRQualityCommand;
 import com.stellarwind23.terrarian_reforging.content.event.TRQualityEvents;
 import dev.architectury.event.events.common.CommandRegistrationEvent;

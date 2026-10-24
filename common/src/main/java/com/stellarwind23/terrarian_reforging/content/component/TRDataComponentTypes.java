@@ -1,4 +1,4 @@
-package com.stellarwind23.terrarian_reforging.content;
+package com.stellarwind23.terrarian_reforging.content.component;
 
 import com.stellarwind23.terrarian_reforging.TerrarianReforging;
 import dev.architectury.registry.registries.DeferredRegister;

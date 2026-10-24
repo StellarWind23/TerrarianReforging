@@ -2,8 +2,8 @@ package com.stellarwind23.terrarian_reforging.mixin.client;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.stellarwind23.terrarian_reforging.content.TRDataComponentTypes;
-import com.stellarwind23.terrarian_reforging.content.TRQualityComponent;
+import com.stellarwind23.terrarian_reforging.content.component.TRDataComponentTypes;
+import com.stellarwind23.terrarian_reforging.content.component.TRQualityComponent;
 import com.stellarwind23.terrarian_reforging.util.client.TRHideReforgeState;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.SmithingScreen;

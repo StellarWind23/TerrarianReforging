@@ -1,4 +1,4 @@
-package com.stellarwind23.terrarian_reforging.content;
+package com.stellarwind23.terrarian_reforging.content.component;
 
 import com.mojang.serialization.Codec;
 import com.stellarwind23.terrarian_reforging.TerrarianReforging;

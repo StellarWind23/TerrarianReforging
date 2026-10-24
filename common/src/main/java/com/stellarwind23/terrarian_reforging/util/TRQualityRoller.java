@@ -1,9 +1,9 @@
 package com.stellarwind23.terrarian_reforging.util;
 
 import com.stellarwind23.terrarian_reforging.TerrarianReforging;
-import com.stellarwind23.terrarian_reforging.content.TRDataComponentTypes;
-import com.stellarwind23.terrarian_reforging.content.TRQuality;
-import com.stellarwind23.terrarian_reforging.content.TRQualityComponent;
+import com.stellarwind23.terrarian_reforging.content.component.TRDataComponentTypes;
+import com.stellarwind23.terrarian_reforging.content.component.TRQuality;
+import com.stellarwind23.terrarian_reforging.content.component.TRQualityComponent;
 import com.stellarwind23.terrarian_reforging.content.event.TRQualityEvents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
