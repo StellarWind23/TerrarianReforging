@@ -40,7 +40,7 @@ public class TRItems {
 
         TR_ITEMS.register();
 
-        CreativeTabRegistry.append(CreativeModeTabs.INGREDIENTS, REFORGING_TOKEN.get());
+        CreativeTabRegistry.append(CreativeModeTabs.INGREDIENTS, REFORGING_TOKEN);
     }
 
     private static <T extends Item>RegistrySupplier<T> register(String name, Function<Item.Properties, T> constructor) {

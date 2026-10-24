@@ -15,6 +15,7 @@
     "CraftingMenuMixin",
     "ItemStackMixin",
     "LootTableMixin",
+    "MerchantMenuMixin",
     "SmithingTransformRecipeMixin"
   ],
   "injectors": {

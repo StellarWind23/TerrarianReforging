@@ -1,0 +1,7 @@
+{
+  "required": true,
+  "package": "com.stellarwind23.terrarian_reforging.neoforge.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": ["AttributeUtilMixin"],
+  "injectors": { "defaultRequire": 1 }
+}

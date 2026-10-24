@@ -36,3 +36,6 @@ side = "BOTH"
 
 [[mixins]]
 config = "terrarian_reforging.mixins.json"
+
+[[mixins]]
+config = "terrarian_reforging.neoforge.mixins.json"

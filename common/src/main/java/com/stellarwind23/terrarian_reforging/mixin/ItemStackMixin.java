@@ -90,8 +90,7 @@ public abstract class ItemStackMixin {
 
     @ModifyVariable(
             method = "forEachModifier(Lnet/minecraft/world/entity/EquipmentSlotGroup;Lorg/apache/commons/lang3/function/TriConsumer;)V",
-            at = @At("HEAD"), argsOnly = true, name = "triConsumer"
-    )
+            at = @At("HEAD"), argsOnly = true)
     private TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> tr$foldQuality(TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> triConsumer, EquipmentSlotGroup equipmentSlotGroup) {
         //Hide size modifier
         if(TRHideReforgeState.hideQuality()) return triConsumer;

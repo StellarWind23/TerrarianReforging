@@ -2,6 +2,7 @@ package com.stellarwind23.terrarian_reforging.content.component;
 
 import com.mojang.serialization.Codec;
 import com.stellarwind23.terrarian_reforging.TerrarianReforging;
+import com.stellarwind23.terrarian_reforging.util.TRTooltipColors;
 import com.stellarwind23.terrarian_reforging.util.client.TRHideReforgeState;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -55,7 +56,7 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
             if (b == 0) return;
             out.accept(Component.literal((b > 0 ? "+" : "") + b + " ")
                     .append(Component.translatable("tr_quality.tooltip.enchantability"))
-                    .withStyle(b > 0 ? ChatFormatting.GREEN : ChatFormatting.RED));
+                    .withStyle(b > 0 ? TRTooltipColors.POSITIVE_IMPORTANT : TRTooltipColors.NEGATIVE_IMPORTANT));
         });
 
         boolean enchanted = !getter.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY).isEmpty();
@@ -80,7 +81,7 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
             line = Component.literal(value + " ")
                     .append(Component.translatable(ae.attribute().value().getDescriptionId()));
         }
-        return line.copy().withStyle(pos ? ChatFormatting.BLUE : ChatFormatting.RED);
+        return line.copy().withStyle(pos ? TRTooltipColors.POSITIVE : TRTooltipColors.NEGATIVE);
     }
 
     private static String customKey(Holder<Attribute> attr) {
@@ -96,7 +97,7 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
         consumer.accept(
                 Component.literal((pos ? "+" : "") + pct + "% ")
                         .append(Component.translatable(TerrarianReforging.CMP_NAME + ".tooltip." + key))
-                        .withStyle(pos ? ChatFormatting.GREEN : ChatFormatting.RED));
+                        .withStyle(pos ? TRTooltipColors.POSITIVE_IMPORTANT : TRTooltipColors.NEGATIVE_IMPORTANT));
     }
 
     public void forEachModifier(EquipmentSlot slot, BiConsumer<Holder<Attribute>, AttributeModifier> out) {

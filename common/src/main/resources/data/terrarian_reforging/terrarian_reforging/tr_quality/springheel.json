@@ -4,13 +4,19 @@
   "modifiers": [
     {
       "attribute": "minecraft:jump_strength",
-      "amount": 0.5,
+      "amount": 0.65,
       "operation": "add_multiplied_total",
       "slot": "feet"
     },
     {
       "attribute": "minecraft:safe_fall_distance",
-      "amount": 3,
+      "amount": 2,
+      "operation": "add_value",
+      "slot": "feet"
+    },
+    {
+      "attribute": "minecraft:step_height",
+      "amount": 0.5,
       "operation": "add_value",
       "slot": "feet"
     }
