@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:pickaxes",
+    "#minecraft:axes",
+    "#minecraft:shovels",
+    "#minecraft:hoes",
+    "#c:tools/shear",
+    "#c:tools/wrench",
+    "#c:tools/brush",
+    "#c:tools/igniter"
+  ]
+}

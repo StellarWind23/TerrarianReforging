@@ -1,0 +1,12 @@
+{
+  "weight": 4,
+  "valid_items": "#terrarian_reforging:armor",
+  "modifiers": [
+    {
+      "attribute": "minecraft:movement_speed",
+      "amount": -0.05,
+      "operation": "add_multiplied_total",
+      "slot": "armor"
+    }
+  ]
+}

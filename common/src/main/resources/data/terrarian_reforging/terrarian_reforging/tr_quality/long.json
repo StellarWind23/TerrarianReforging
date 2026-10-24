@@ -1,0 +1,14 @@
+{
+  "weight": 5,
+  "valid_items": "#terrarian_reforging:tool",
+  "modifiers": [
+  {
+      "attribute": "minecraft:block_interaction_range",
+      "amount": 1.5,
+      "operation": "add_value",
+      "slot": "mainhand"
+    }
+  ],
+  "hand_scale": 1.2,
+  "gui_scale": 1.05
+}

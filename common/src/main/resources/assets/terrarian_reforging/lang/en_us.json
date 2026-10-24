@@ -22,5 +22,9 @@
     "tr_quality.terrarian_reforging.sharp": "Sharp %s",
     "tr_quality.terrarian_reforging.dull": "Dull %s",
     "tr_quality.terrarian_reforging.thick": "Thick %s",
-    "tr_quality.terrarian_reforging.thin": "Thin %s"
+    "tr_quality.terrarian_reforging.thin": "Thin %s",
+    "tr_quality.terrarian_reforging.swift": "Swift %s",
+    "tr_quality.terrarian_reforging.slow": "Slow %s",
+    "tr_quality.terrarian_reforging.long": "Long %s",
+    "tr_quality.terrarian_reforging.short": "Short %s"
 }
