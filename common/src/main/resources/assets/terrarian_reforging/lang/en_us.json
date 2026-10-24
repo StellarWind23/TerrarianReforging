@@ -1,6 +1,7 @@
 {
     "item.terrarian_reforging.reforging_template": "Reforging Template",
     "tr_quality.tooltip.durability": "Durability",
+    "tr_quality.tooltip.enchantability": "Enchantability",
     "tr_quality.tooltip.hidden": "??? %s",
     "tr_quality.attribute.minecraft.entity_interaction_range": "%s Attack Reach",
     "tr_quality.attribute.minecraft.block_interaction_range": "%s Block Reach",
@@ -9,5 +10,7 @@
     "tr_quality.terrarian_reforging.big": "Big %s",
     "tr_quality.terrarian_reforging.shoddy": "Shoddy %s",
     "tr_quality.terrarian_reforging.sturdy": "Sturdy %s",
-    "tr_quality.terrarian_reforging.superior": "Superior %s"
+    "tr_quality.terrarian_reforging.superior": "Superior %s",
+    "tr_quality.terrarian_reforging.strong": "Strong %s",
+    "tr_quality.terrarian_reforging.weak": "Weak %s"
 }

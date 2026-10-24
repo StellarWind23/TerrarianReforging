@@ -36,7 +36,8 @@ public record TRQuality(
         Optional<TextColor> nameColor,
         Optional<Float> handScale,
         Optional<Float> guiScale,
-        Optional<Float> durabilityScale)
+        Optional<Float> durabilityScale,
+        Optional<Integer> enchantability)
 {
 
     public static final Codec<TRQuality> DIRECT_CODEC = RecordCodecBuilder.create(q -> q.group(
@@ -47,7 +48,8 @@ public record TRQuality(
             TextColor.CODEC.optionalFieldOf("name_color").forGetter(TRQuality::nameColor),
             ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("hand_scale").forGetter(TRQuality::handScale),
             ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("gui_scale").forGetter(TRQuality::guiScale),
-            ExtraCodecs.floatRange(0.01F, 10F).optionalFieldOf("durability_scale").forGetter(TRQuality::durabilityScale)
+            ExtraCodecs.floatRange(0.01F, 10F).optionalFieldOf("durability_scale").forGetter(TRQuality::durabilityScale),
+            ExtraCodecs.intRange(-30, 30).optionalFieldOf("enchantability").forGetter(TRQuality::enchantability)
             ).apply(q, TRQuality::new));
 
     //Reference codec: serializes an id referencing registered quality components

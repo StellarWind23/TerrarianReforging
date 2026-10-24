@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.enchantment.Enchantable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,6 +58,14 @@ public final class TerrarianReforging {
             if (oldMax > 0) {
                 stack.setDamageValue(Math.min(newMax - 1, Math.round((float) damage / oldMax * newMax)));
             }
+
+            Enchantable baseEnch = stack.getItem().components().get(DataComponents.ENCHANTABLE);
+            if (baseEnch != null) {   // only items that are enchantable to begin with
+                int bonus = quality.value().enchantability().orElse(0);
+                stack.set(DataComponents.ENCHANTABLE, new Enchantable(Math.max(1, baseEnch.value() + bonus)));
+            }
         });
+
+        LOGGER.info("Terrarian Reforging Initialized! :3");
     }
 }

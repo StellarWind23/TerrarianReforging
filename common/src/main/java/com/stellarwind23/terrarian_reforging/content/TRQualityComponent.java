@@ -44,6 +44,12 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
         }
 
         q.durabilityScale().ifPresent(s -> scaleLine("durability", s, consumer));
+        q.enchantability().ifPresent(b -> {
+            if (b == 0) return;
+            consumer.accept(Component.literal((b > 0 ? "+" : "") + b + " ")
+                    .append(Component.translatable("tr_quality.tooltip.enchantability"))
+                    .withStyle(b > 0 ? ChatFormatting.DARK_GREEN : ChatFormatting.DARK_RED));
+        });
     }
 
     private static Component formatLine(TRQuality.AttributeEntry ae) {
