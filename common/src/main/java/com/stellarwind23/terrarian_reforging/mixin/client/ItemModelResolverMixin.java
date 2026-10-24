@@ -2,6 +2,7 @@ package com.stellarwind23.terrarian_reforging.mixin.client;
 
 import com.stellarwind23.terrarian_reforging.content.TRDataComponentTypes;
 import com.stellarwind23.terrarian_reforging.content.TRQualityComponent;
+import com.stellarwind23.terrarian_reforging.util.client.TRClientState;
 import net.minecraft.client.renderer.block.model.ItemTransform;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
@@ -29,6 +30,8 @@ public abstract class ItemModelResolverMixin {
         TRQualityComponent qc = itemStack.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
         if (qc == null || !qc.quality().isBound()) return;
 
+        //Hide size modifier
+        if(TRClientState.hideQuality()) return;
 
         float s = qc.quality().value().scaleFor(itemDisplayContext);
         if (s == 1F) return;

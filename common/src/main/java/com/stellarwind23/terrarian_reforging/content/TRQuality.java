@@ -9,6 +9,8 @@ import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
@@ -31,6 +33,7 @@ public record TRQuality(
         HolderSet<Item> applicableTo,
         List<AttributeEntry> modifiers,
         Optional<Rarity> rarity,
+        Optional<TextColor> nameColor,
         Optional<Float> handScale,
         Optional<Float> guiScale,
         Optional<Float> durabilityScale)
@@ -41,6 +44,7 @@ public record TRQuality(
             RegistryCodecs.homogeneousList(Registries.ITEM).fieldOf("valid_items").forGetter(TRQuality::applicableTo),
             AttributeEntry.CODEC.listOf().fieldOf("modifiers").forGetter(TRQuality::modifiers),
             Rarity.CODEC.optionalFieldOf("rarity").forGetter(TRQuality::rarity),
+            TextColor.CODEC.optionalFieldOf("nameColor").forGetter(TRQuality::nameColor),
             ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("hand_scale").forGetter(TRQuality::handScale),
             ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("gui_scale").forGetter(TRQuality::guiScale),
             ExtraCodecs.floatRange(0.01F, 10F).optionalFieldOf("durability_scale").forGetter(TRQuality::durabilityScale)
@@ -93,5 +97,10 @@ public record TRQuality(
                  GROUND -> handScale.orElse(1F);
             default -> 1F;
         };
+    }
+
+    /** Applies the optional custom color on top of the rarity color. */
+    public Style styleOr(Style fallback) {
+        return nameColor.map(fallback::withColor).orElse(fallback);
     }
 }
