@@ -60,7 +60,7 @@ public final class TRTooltipFolding {
                     .append(Component.translatable("attribute.modifier.equals.0",
                             ItemAttributeModifiers.ATTRIBUTE_MODIFIER_FORMAT.format(value),
                             Component.translatable(attr.value().getDescriptionId())))
-                    .withStyle(ChatFormatting.YELLOW);   // yellow = modified
+                    .withStyle(ChatFormatting.GREEN);   //modified
 
             out.accept(attr, mod, ItemAttributeModifiers.Display.override(line));
         };

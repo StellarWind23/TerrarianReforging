@@ -44,7 +44,7 @@ public record TRQuality(
             RegistryCodecs.homogeneousList(Registries.ITEM).fieldOf("valid_items").forGetter(TRQuality::applicableTo),
             AttributeEntry.CODEC.listOf().fieldOf("modifiers").forGetter(TRQuality::modifiers),
             Rarity.CODEC.optionalFieldOf("rarity").forGetter(TRQuality::rarity),
-            TextColor.CODEC.optionalFieldOf("nameColor").forGetter(TRQuality::nameColor),
+            TextColor.CODEC.optionalFieldOf("name_color").forGetter(TRQuality::nameColor),
             ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("hand_scale").forGetter(TRQuality::handScale),
             ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("gui_scale").forGetter(TRQuality::guiScale),
             ExtraCodecs.floatRange(0.01F, 10F).optionalFieldOf("durability_scale").forGetter(TRQuality::durabilityScale)

@@ -70,7 +70,7 @@ public abstract class ItemStackMixin {
 
         // Smithing result preview: scrambled prefix, readable base name, forced white
         if (TRClientState.hideQuality()) {
-            return Component.translatable("tr_quality.tooltip.hidden", original).withStyle(original.getStyle());
+            return Component.translatable("tr_quality.tooltip.hidden", original).withStyle(ChatFormatting.GREEN);
         }
 
         // Normal display

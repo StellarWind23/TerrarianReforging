@@ -78,7 +78,7 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
         consumer.accept(
                 Component.literal((pos ? "+" : "") + pct + "% ")
                         .append(Component.translatable(TerrarianReforging.CMP_NAME + ".tooltip." + key))
-                        .withStyle(pos ? ChatFormatting.DARK_GREEN : ChatFormatting.DARK_RED));
+                        .withStyle(pos ? ChatFormatting.GREEN : ChatFormatting.DARK_RED));
     }
 
     public void forEachModifier(EquipmentSlot slot, BiConsumer<Holder<Attribute>, AttributeModifier> out) {
