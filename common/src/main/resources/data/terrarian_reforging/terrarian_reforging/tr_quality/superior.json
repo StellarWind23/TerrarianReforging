@@ -1,0 +1,20 @@
+{
+  "weight": 1,
+  "valid_items": "#terrarian_reforging:melee_weapon",
+  "modifiers": [
+    {
+      "attribute": "minecraft:attack_damage",
+      "amount": 0.10,
+      "operation": "add_multiplied_total",
+      "slot": "mainhand"
+    },
+    {
+      "attribute": "minecraft:attack_knockback",
+      "amount": 0.12,
+      "operation": "add_value",
+      "slot": "mainhand"
+    }
+  ],
+  "rarity": "epic",
+  "durability_scale": 1.3
+}

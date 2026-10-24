@@ -1,6 +1,6 @@
 {
   "weight": 1,
-  "valid_items": "#minecraft:swords",
+  "valid_items": "#terrarian_reforging:melee_weapon",
   "modifiers": [
     {
       "attribute": "minecraft:attack_speed",
@@ -10,12 +10,12 @@
     },
     {
       "attribute": "minecraft:attack_knockback",
-      "amount": 0.25,
+      "amount": 0.2,
       "operation": "add_multiplied_total",
       "slot": "mainhand"
     },{
       "attribute": "minecraft:entity_interaction_range",
-      "amount": 0.1,
+      "amount": 0.15,
       "operation": "add_multiplied_total",
       "slot": "mainhand"
     }

@@ -5,5 +5,7 @@
     "tr_quality.attribute.minecraft.block_interaction_range": "%s Block Reach",
     "tr_quality.terrarian_reforging.godly": "Godly %s",
     "tr_quality.terrarian_reforging.small": "Small %s",
-    "tr_quality.terrarian_reforging.big": "Big %s"
+    "tr_quality.terrarian_reforging.big": "Big %s",
+    "tr_quality.terrarian_reforging.shoddy": "Shoddy %s",
+    "tr_quality.terrarian_reforging.sturdy": "Sturdy %s"
 }

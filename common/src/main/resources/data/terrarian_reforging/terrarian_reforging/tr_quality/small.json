@@ -1,6 +1,6 @@
 {
   "weight": 1,
-  "valid_items": "#minecraft:swords",
+  "valid_items": "#terrarian_reforging:melee_weapon",
   "modifiers": [
     {
       "attribute": "minecraft:attack_speed",
