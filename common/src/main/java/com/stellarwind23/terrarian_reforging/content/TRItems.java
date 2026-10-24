@@ -1,11 +1,13 @@
 package com.stellarwind23.terrarian_reforging.content;
 
 import com.stellarwind23.terrarian_reforging.TerrarianReforging;
+import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 
@@ -24,6 +26,8 @@ public class TRItems {
         REFORGING_TEMPLATE = register("reforging_template", properties -> new Item(properties.rarity(Rarity.UNCOMMON)));
 
         TR_ITEMS.register();
+
+        CreativeTabRegistry.append(CreativeModeTabs.INGREDIENTS, REFORGING_TEMPLATE.get());
     }
 
     private static <T extends Item>RegistrySupplier<T> register(String name, Function<Item.Properties, T> constructor) {

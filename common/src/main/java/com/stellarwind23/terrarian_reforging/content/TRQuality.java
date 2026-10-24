@@ -43,7 +43,7 @@ public record TRQuality(
             Rarity.CODEC.optionalFieldOf("rarity").forGetter(TRQuality::rarity),
             ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("hand_scale").forGetter(TRQuality::handScale),
             ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("gui_scale").forGetter(TRQuality::guiScale),
-            ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("durability_scale").forGetter(TRQuality::durabilityScale)
+            ExtraCodecs.floatRange(0.01F, 10F).optionalFieldOf("durability_scale").forGetter(TRQuality::durabilityScale)
             ).apply(q, TRQuality::new));
 
     //Reference codec: serializes an id referencing registered quality components

@@ -1,0 +1,26 @@
+{
+  "weight": 1,
+  "valid_items": "#minecraft:swords",
+  "modifiers": [
+    {
+      "attribute": "minecraft:attack_speed",
+      "amount": -0.15,
+      "operation": "add_multiplied_total",
+      "slot": "mainhand"
+    },
+    {
+      "attribute": "minecraft:attack_knockback",
+      "amount": 0.25,
+      "operation": "add_multiplied_total",
+      "slot": "mainhand"
+    },{
+      "attribute": "minecraft:entity_interaction_range",
+      "amount": 0.1,
+      "operation": "add_multiplied_total",
+      "slot": "mainhand"
+    }
+  ],
+  "rarity": "uncommon",
+  "hand_scale": 1.2,
+  "gui_scale": 1.05
+}

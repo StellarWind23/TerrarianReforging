@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.util.Util;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -37,20 +38,31 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
             consumer.accept(formatLine(ae));
         }
 
-        q.handScale().ifPresent(s -> scaleLine("size", s, consumer));
         q.durabilityScale().ifPresent(s -> scaleLine("durability", s, consumer));
     }
+
     private static Component formatLine(TRQuality.AttributeEntry ae) {
         boolean pos = ae.amount() >= 0;
         boolean per = ae.operation() != AttributeModifier.Operation.ADD_VALUE;
         double shown = per ? ae.amount() * 100.0 : ae.amount();
 
         String num = (Math.abs(shown) % 1 == 0) ? String.valueOf((long) shown) : String.format("%.1f", shown);
-        String txt = (pos ? "+" : "") + num + (per ? "%" : "") + " ";
+        String value = (pos ? "+" : "") + num + (per ? "%" : "");   // negatives carry their own minus
 
-        return Component.literal(txt)
-                .append(Component.translatable(ae.attribute().value().getDescriptionId()))
-                .withStyle(pos ? ChatFormatting.GREEN : ChatFormatting.RED);
+        Component line;
+        if (ae.attribute().is(TerrarianReforging.CUSTOM_DESCRIPTOR)) {
+            // lang value gets the formatted number as %s, so you control wording and word order
+            line = Component.translatable(customKey(ae.attribute()), value);
+        } else {
+            line = Component.literal(value + " ")
+                    .append(Component.translatable(ae.attribute().value().getDescriptionId()));
+        }
+        return line.copy().withStyle(pos ? ChatFormatting.BLUE : ChatFormatting.RED);
+    }
+
+    private static String customKey(Holder<Attribute> attr) {
+        Identifier id = attr.unwrapKey().map(ResourceKey::identifier).orElseThrow();
+        return Util.makeDescriptionId(TerrarianReforging.CMP_NAME + ".attribute", id);
     }
 
     private static void scaleLine(String key, float scale, Consumer<Component> consumer) {

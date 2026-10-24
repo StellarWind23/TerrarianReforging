@@ -11,6 +11,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,10 @@ public final class TerrarianReforging {
 
     public static final TagKey<Item> ACCEPTED_EQUIPMENT = TagKey.create(Registries.ITEM,
             Identifier.fromNamespaceAndPath(TerrarianReforging.MOD_ID, "accepted_equipment"));
+
+    public static final TagKey<Attribute> CUSTOM_DESCRIPTOR = TagKey.create(
+            Registries.ATTRIBUTE,
+            Identifier.fromNamespaceAndPath(TerrarianReforging.MOD_ID, "custom_descriptor"));
 
 
     public static final ResourceKey<Registry<TRQuality>> REG_KEY = ResourceKey.createRegistryKey(
