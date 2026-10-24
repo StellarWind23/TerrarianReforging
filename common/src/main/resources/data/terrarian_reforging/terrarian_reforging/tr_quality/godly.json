@@ -10,7 +10,7 @@
     },
     {
       "attribute": "minecraft:attack_knockback",
-      "amount": 0.12,
+      "amount": 0.2,
       "operation": "add_value",
       "slot": "mainhand"
     }

@@ -3,7 +3,8 @@ package com.stellarwind23.terrarian_reforging.mixin.client;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.stellarwind23.terrarian_reforging.content.TRDataComponentTypes;
-import com.stellarwind23.terrarian_reforging.util.client.TRHideState;
+import com.stellarwind23.terrarian_reforging.content.TRQualityComponent;
+import com.stellarwind23.terrarian_reforging.util.client.TRHideReforgeState;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.SmithingScreen;
 import net.minecraft.network.chat.Component;
@@ -22,15 +23,23 @@ public abstract class AbstractContainerScreenMixin {
     @SuppressWarnings("ConstantValue")
     @WrapMethod(method = "getTooltipFromContainerItem")
     private List<Component> tr$hideReforgePreview(ItemStack itemStack, Operation<List<Component>> original) {
-        boolean hide = (Object) this instanceof SmithingScreen
-                && hoveredSlot != null && hoveredSlot.index == 3   // smithing result slot
-                && itemStack.has(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
+        boolean hide = false;
 
-        boolean prev = TRHideState.setHideQuality(hide);
+        if ((Object) this instanceof SmithingScreen screen
+                && hoveredSlot != null && hoveredSlot.index == 3) {            // result slot
+
+            TRQualityComponent out = itemStack.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
+            ItemStack base = screen.getMenu().getSlot(1).getItem();            // base slot
+            TRQualityComponent in = base.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
+
+            hide = out != null && !out.equals(in);
+        }
+
+        boolean prev = TRHideReforgeState.setHideQuality(hide);
         try {
             return original.call(itemStack);
         } finally {
-            TRHideState.setHideQuality(prev);
+            TRHideReforgeState.setHideQuality(prev);
         }
     }
 }

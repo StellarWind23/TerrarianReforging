@@ -2,8 +2,8 @@
     "item.terrarian_reforging.reforging_token": "Reforging Token",
     "tag.item.terrarian_reforging.accepted_equipment": "Equipment",
     "tag.item.terrarian_reforging.reforge_materials": "Repair Materials",
-    "item.terrarian_reforging.reforging_template.base_slot": "Add a piece of equipment",
-    "item.terrarian_reforging.reforging_template.additions_slot": "Add a repair material",
+    "item.terrarian_reforging.reforging_token.base_slot": "Add a piece of equipment",
+    "item.terrarian_reforging.reforging_token.additions_slot": "Add repair material",
     "tr_quality.tooltip.durability": "Durability",
     "tr_quality.tooltip.enchantability": "Enchantability",
     "tr_quality.tooltip.hidden": "??? %s",
@@ -20,5 +20,7 @@
     "tr_quality.terrarian_reforging.mundane": "Mundane %s",
     "tr_quality.terrarian_reforging.mystic": "Mystic %s",
     "tr_quality.terrarian_reforging.sharp": "Sharp %s",
-    "tr_quality.terrarian_reforging.dull": "Dull %s"
+    "tr_quality.terrarian_reforging.dull": "Dull %s",
+    "tr_quality.terrarian_reforging.thick": "Thick %s",
+    "tr_quality.terrarian_reforging.thin": "Thin %s"
 }

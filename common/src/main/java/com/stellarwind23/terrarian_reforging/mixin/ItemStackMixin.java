@@ -7,7 +7,7 @@ import com.stellarwind23.terrarian_reforging.content.TRQuality;
 import com.stellarwind23.terrarian_reforging.content.TRQualityComponent;
 import com.stellarwind23.terrarian_reforging.util.TRQualityRoller;
 import com.stellarwind23.terrarian_reforging.util.TRTooltipFolding;
-import com.stellarwind23.terrarian_reforging.util.client.TRHideState;
+import com.stellarwind23.terrarian_reforging.util.client.TRHideReforgeState;
 import com.stellarwind23.terrarian_reforging.util.client.TRNameState;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -71,7 +71,7 @@ public abstract class ItemStackMixin {
         if (qc == null || !qc.quality().isBound()) return original;
 
         // Smithing result preview: scrambled prefix, readable base name, forced white
-        if (TRHideState.hideQuality()) {
+        if (TRHideReforgeState.hideQuality()) {
             return Component.translatable("tr_quality.tooltip.hidden", original).withStyle(ChatFormatting.GREEN);
         }
 
@@ -100,7 +100,7 @@ public abstract class ItemStackMixin {
     )
     private TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> tr$foldQuality(TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> triConsumer, EquipmentSlotGroup equipmentSlotGroup) {
         //Hide size modifier
-        if(TRHideState.hideQuality()) return triConsumer;
+        if(TRHideReforgeState.hideQuality()) return triConsumer;
 
         TRQualityComponent qc = ((ItemStack) (Object) this).get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
         if (qc == null || !qc.quality().isBound()) return triConsumer;

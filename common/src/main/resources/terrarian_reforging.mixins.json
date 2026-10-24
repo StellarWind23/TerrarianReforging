@@ -13,7 +13,8 @@
   "mixins": [
     "AnvilMenuMixin",
     "CraftingMenuMixin",
-    "ItemStackMixin"
+    "ItemStackMixin",
+    "SmithingTransformRecipeMixin"
   ],
   "injectors": {
     "defaultRequire": 1
