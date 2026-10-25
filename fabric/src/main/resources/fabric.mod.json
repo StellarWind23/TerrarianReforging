@@ -1,37 +1,35 @@
 {
   "schemaVersion": 1,
-  "id": "terrarian_reforging",
-  "version": "${version}",
-  "name": "Terrarian Reforging",
-  "description": "",
+  "id": "${modid}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${description}",
   "authors": [
-    ""
+    "${author}"
   ],
   "contact": {
-    "homepage": ""
+    "homepage": "${homepage_url}",
+    "issues": "${issues_url}"
   },
-  "license": "All-Rights-Reserved",
-  "icon": "assets/terrarian_reforging/icon.png",
+  "license": "${license}",
+  "icon": "assets/shieldlib/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.stellarwind23.terrarian_reforging.fabric.TerrarianReforgingFabric"
+      "${maven_group}.${modid}.fabric.${mod_name}Fabric"
     ],
     "client": [
-      "com.stellarwind23.terrarian_reforging.fabric.client.TerrarianReforgingFabricClient"
+      "${maven_group}.${modid}.fabric.client.${mod_name}FabricClient"
     ]
   },
   "mixins": [
-    "terrarian_reforging.mixins.json"
+    "${modid}.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.20.1",
-    "minecraft": "~1.21.11",
-    "java": ">=21",
-    "architectury": ">=19.0.1",
+    "fabricloader": ">=${fabric_loader_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=${java_version}",
+    "architectury": ">=${architectury_api_version}",
     "fabric-api": "*"
-  },
-  "suggests": {
-    "another-mod": "*"
   }
 }

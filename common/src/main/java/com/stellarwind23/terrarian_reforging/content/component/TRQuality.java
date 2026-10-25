@@ -101,7 +101,6 @@ public record TRQuality(
         };
     }
 
-    /** Applies the optional custom color on top of the rarity color. */
     public Style styleOr(Style fallback) {
         return nameColor.map(fallback::withColor).orElse(fallback);
     }
