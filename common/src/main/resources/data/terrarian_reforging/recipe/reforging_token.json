@@ -8,7 +8,7 @@
   "key": {
     "*": "minecraft:emerald",
     "T": "terrarian_reforging:reforging_token",
-    "#": "minecraft:cobbled_deepslate"
+    "#": "minecraft:terracotta"
   },
   "result": {
     "id": "terrarian_reforging:reforging_token",
