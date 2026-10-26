@@ -22,6 +22,8 @@ public class TRItems {
     private static DeferredRegister<Item> TR_ITEMS;
 
     public static RegistrySupplier<Item> REFORGING_TOKEN;
+    public static RegistrySupplier<Item> WHETSTONE;
+    public static RegistrySupplier<Item> COPPER_WOOL;
 
     public static void init() {
 
@@ -38,9 +40,14 @@ public class TRItems {
                 List.of(/* addition slot icon sprite ids */),
                 properties.rarity(Rarity.UNCOMMON)));
 
+        WHETSTONE = register("whetstone", properties -> new Item(properties.durability(25)));
+        COPPER_WOOL = register("copper_wool", properties -> new Item(properties.durability(20)));
+
         TR_ITEMS.register();
 
         CreativeTabRegistry.append(CreativeModeTabs.INGREDIENTS, REFORGING_TOKEN);
+        CreativeTabRegistry.append(CreativeModeTabs.INGREDIENTS, WHETSTONE);
+        CreativeTabRegistry.append(CreativeModeTabs.INGREDIENTS, COPPER_WOOL);
     }
 
     private static <T extends Item>RegistrySupplier<T> register(String name, Function<Item.Properties, T> constructor) {
