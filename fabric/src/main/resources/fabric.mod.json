@@ -12,7 +12,7 @@
     "issues": "${issues_url}"
   },
   "license": "${license}",
-  "icon": "assets/shieldlib/icon.png",
+  "icon": "/assets/${modid}/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
