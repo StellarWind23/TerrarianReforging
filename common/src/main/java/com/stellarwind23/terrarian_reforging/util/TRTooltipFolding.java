@@ -42,7 +42,7 @@ public final class TRTooltipFolding {
     //Neoforge has to be special :/
     public static List<BaseRow> foldBases(TRQualityComponent qc, EquipmentSlotGroup group,
                                           Multimap<Holder<Attribute>, AttributeModifier> map) {
-        List<TRQuality.AttributeEntry> entries = qc.quality().value().modifiers().stream()
+        List<TRQuality.AttributeEntry> entries = qc.quality().value().modifiers().orElse(new ArrayList<>()).stream()
                 .filter(e -> covers(e.slots(), group)).toList();
         if (entries.isEmpty()) return List.of();
 
@@ -92,7 +92,7 @@ public final class TRTooltipFolding {
             TRQualityComponent qc, EquipmentSlotGroup group,
             TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> out) {
 
-        List<TRQuality.AttributeEntry> entries = qc.quality().value().modifiers().stream()
+        List<TRQuality.AttributeEntry> entries = qc.quality().value().modifiers().orElse(new ArrayList<>()).stream()
                 .filter(e -> covers(e.slots(), group))
                 .toList();
         if (entries.isEmpty()) return out;

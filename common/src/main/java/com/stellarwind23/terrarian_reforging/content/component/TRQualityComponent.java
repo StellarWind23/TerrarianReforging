@@ -24,6 +24,7 @@ import net.minecraft.world.item.component.TooltipProvider;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import org.jspecify.annotations.NonNull;
 
+import java.util.ArrayList;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -34,6 +35,7 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
 
     public static final StreamCodec<RegistryFriendlyByteBuf, TRQualityComponent> STREAM_CODEC =
             TRQuality.STREAM_CODEC.map(TRQualityComponent::new,TRQualityComponent::quality);
+
 
     @Override
     public void addToTooltip(Item.@NonNull TooltipContext ctx, @NonNull Consumer<Component> consumer, @NonNull TooltipFlag flag, @NonNull DataComponentGetter getter) {
@@ -46,7 +48,8 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
         int[] printed = {0};
         Consumer<Component> out = c -> { printed[0]++; consumer.accept(c); };
 
-        for (TRQuality.AttributeEntry ae : q.modifiers()) {
+        var m = q.modifiers().orElse(new ArrayList<>());
+        for (TRQuality.AttributeEntry ae : m) {
             out.accept(formatLine(ae));
         }
 
@@ -104,10 +107,13 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
         Identifier id = quality.unwrapKey().map(ResourceKey::identifier).orElse(null);
         if(id == null) return;
 
-        for(TRQuality.AttributeEntry ae : quality.value().modifiers()) {
+        var m = quality.value().modifiers().orElse(new ArrayList<>());
+        for(TRQuality.AttributeEntry ae : m) {
             if(ae.slots().test(slot)) {
                 out.accept(ae.attribute(), ae.toModifier(id));
             }
         }
     }
+
+
 }
