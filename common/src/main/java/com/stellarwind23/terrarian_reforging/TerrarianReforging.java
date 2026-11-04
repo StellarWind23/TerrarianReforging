@@ -3,18 +3,23 @@ package com.stellarwind23.terrarian_reforging;
 import com.stellarwind23.terrarian_reforging.content.component.TRDataComponentTypes;
 import com.stellarwind23.terrarian_reforging.content.TRItems;
 import com.stellarwind23.terrarian_reforging.content.component.TRQuality;
+import com.stellarwind23.terrarian_reforging.content.component.TRSharpenedComponent;
 import com.stellarwind23.terrarian_reforging.content.crafting.TRRecipeSerializers;
 import com.stellarwind23.terrarian_reforging.content.command.TRQualityCommand;
 import com.stellarwind23.terrarian_reforging.content.event.TRQualityEvents;
+import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.CommandRegistrationEvent;
+import dev.architectury.event.events.common.EntityEvent;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,6 +73,19 @@ public final class TerrarianReforging {
                 int bonus = quality.value().enchantability().orElse(0);
                 stack.set(DataComponents.ENCHANTABLE, new Enchantable(Math.max(1, baseEnch.value() + bonus)));
             }
+        });
+
+        EntityEvent.LIVING_HURT.register((entity, source, amount) -> {
+            if (amount > 0 && source.getEntity() instanceof ServerPlayer p && source.getDirectEntity() == p) {
+                ItemStack held = p.getMainHandItem();
+                var type = TRDataComponentTypes.TR_SHARPENED_COMPONENT.get();
+                var sh = held.get(type);
+                if (sh != null) {
+                    if (sh.uses() <= 1) held.remove(type);
+                    else held.set(type, new TRSharpenedComponent(sh.uses() - 1));
+                }
+            }
+            return EventResult.pass();
         });
 
         LOGGER.info("Terrarian Reforging Initialized! :3");

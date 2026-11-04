@@ -42,7 +42,12 @@ public abstract class ItemStackMixin {
     )
     private void tr$addQualityModifiers(EquipmentSlot equipmentSlot, BiConsumer<Holder<Attribute>, AttributeModifier> biConsumer, CallbackInfo ci)
     {
-        TRQualityComponent qc = ((ItemStack) (Object) this).get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
+        var self = ((ItemStack) (Object) this);
+        TRQualityComponent qc = self.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
+
+        //Handle sharpened component
+        var sh = self.get(TRDataComponentTypes.TR_SHARPENED_COMPONENT.get());
+        if (sh != null) sh.forEachModifier(equipmentSlot, biConsumer);
 
         if(qc != null) {
             qc.forEachModifier(equipmentSlot, biConsumer);
@@ -64,7 +69,7 @@ public abstract class ItemStackMixin {
         TRQualityComponent qc = self.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
         if (qc == null || !qc.quality().isBound()) return original;
 
-        // Smithing result preview: scrambled prefix, readable base name, forced white
+        // Smithing result preview: scrambled prefix, readable base name, forced green
         if (TRHideReforgeState.hideQuality()) {
             return Component.translatable("tr_quality.tooltip.hidden", original).withStyle(ChatFormatting.GREEN);
         }
@@ -92,10 +97,8 @@ public abstract class ItemStackMixin {
             method = "forEachModifier(Lnet/minecraft/world/entity/EquipmentSlotGroup;Lorg/apache/commons/lang3/function/TriConsumer;)V",
             at = @At("HEAD"), argsOnly = true)
     private TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> tr$foldQuality(TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> triConsumer, EquipmentSlotGroup equipmentSlotGroup) {
-        //Hide size modifier
-        if(TRHideReforgeState.hideQuality()) return triConsumer;
-
-        TRQualityComponent qc = ((ItemStack) (Object) this).get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
+        var self = ((ItemStack) (Object) this);
+        TRQualityComponent qc = self.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
         if (qc == null || !qc.quality().isBound()) return triConsumer;
         return TRTooltipFolding.wrap(qc, equipmentSlotGroup, triConsumer);
     }

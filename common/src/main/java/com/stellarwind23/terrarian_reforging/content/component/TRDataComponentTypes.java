@@ -15,6 +15,7 @@ public class TRDataComponentTypes {
     private static DeferredRegister<DataComponentType<?>> TR_COMPONENTS;
 
     public static RegistrySupplier<DataComponentType<TRQualityComponent>> TR_QUALITY_COMPONENT;
+    public static RegistrySupplier<DataComponentType<TRSharpenedComponent>> TR_SHARPENED_COMPONENT;
 
     public static void init() {
 
@@ -22,9 +23,13 @@ public class TRDataComponentTypes {
 
         TR_QUALITY_COMPONENT = registerComponent(TerrarianReforging.CMP_NAME, builder ->
                 builder.persistent(TRQualityComponent.CODEC)
-                .networkSynchronized(TRQualityComponent.STREAM_CODEC)
-                .cacheEncoding()
-                );
+                        .networkSynchronized(TRQualityComponent.STREAM_CODEC)
+                        .cacheEncoding());
+
+        TR_SHARPENED_COMPONENT = registerComponent("tr_sharpened", builder ->
+                builder.persistent(TRSharpenedComponent.CODEC)
+                        .networkSynchronized(TRSharpenedComponent.STREAM_CODEC)
+                        .cacheEncoding());
 
         TR_COMPONENTS.register();
     }
