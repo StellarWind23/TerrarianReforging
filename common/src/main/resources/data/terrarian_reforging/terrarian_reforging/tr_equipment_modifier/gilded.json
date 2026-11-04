@@ -1,0 +1,9 @@
+{
+  "weight": 3,
+  "quality": 4,
+  "valid_items": "#terrarian_reforging:accepted_equipment",
+  "modifiers": [],
+  "rarity": "uncommon",
+  "durability_scale": 0.95,
+  "enchantability": 6
+}

@@ -30,6 +30,7 @@ import java.util.Optional;
 
 public record TRQuality(
         int weight,
+        double quality,
         HolderSet<Item> applicableTo,
         List<AttributeEntry> modifiers,
         Optional<Rarity> rarity,
@@ -42,6 +43,7 @@ public record TRQuality(
 
     public static final Codec<TRQuality> DIRECT_CODEC = RecordCodecBuilder.create(q -> q.group(
             ExtraCodecs.POSITIVE_INT.fieldOf("weight").forGetter(TRQuality::weight),
+            Codec.DOUBLE.fieldOf("quality").forGetter(TRQuality::quality),
             RegistryCodecs.homogeneousList(Registries.ITEM).fieldOf("valid_items").forGetter(TRQuality::applicableTo),
             AttributeEntry.CODEC.listOf().fieldOf("modifiers").forGetter(TRQuality::modifiers),
             Rarity.CODEC.optionalFieldOf("rarity").forGetter(TRQuality::rarity),

@@ -1,0 +1,14 @@
+{
+  "weight": 2,
+  "quality": 7,
+  "valid_items": "#terrarian_reforging:leggings",
+  "modifiers": [
+    {
+      "attribute": "minecraft:movement_speed",
+      "amount": 0.1,
+      "operation": "add_multiplied_total",
+      "slot": "armor"
+    }
+  ],
+  "rarity": "rare"
+}

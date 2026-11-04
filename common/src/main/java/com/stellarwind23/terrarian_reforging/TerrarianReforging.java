@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 public final class TerrarianReforging {
 
     public static final String MOD_ID = "terrarian_reforging";
-    public static final String CMP_NAME = "tr_quality";
+    public static final String CMP_NAME = "tr_equipment_modifier";
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
