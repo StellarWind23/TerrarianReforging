@@ -16,7 +16,7 @@
     },
     {
       "attribute": "minecraft:step_height",
-      "amount": 0.5,
+      "amount": 1,
       "operation": "add_value",
       "slot": "feet"
     }

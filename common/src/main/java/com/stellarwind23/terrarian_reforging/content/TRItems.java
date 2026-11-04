@@ -25,6 +25,7 @@ public class TRItems {
     public static RegistrySupplier<Item> WHETSTONE;
     public static RegistrySupplier<Item> COPPER_WOOL;
 
+    @SuppressWarnings("unchecked")
     public static void init() {
 
         TR_ITEMS = DeferredRegister.create(TerrarianReforging.MOD_ID, Registries.ITEM);
@@ -40,14 +41,20 @@ public class TRItems {
                 List.of(/* addition slot icon sprite ids */),
                 properties.rarity(Rarity.UNCOMMON)));
 
-        WHETSTONE = register("whetstone", properties -> new Item(properties.durability(25)));
-        COPPER_WOOL = register("copper_wool", properties -> new Item(properties.durability(20)));
+        WHETSTONE = register("whetstone", p -> new TooltipItem(p.durability(25),
+                tip("whetstone.1"), tip("whetstone.2")));
+        COPPER_WOOL = register("copper_wool", p -> new TooltipItem(p.durability(15),
+                tip("copper_wool.1"), tip("copper_wool.2")));
 
         TR_ITEMS.register();
 
         CreativeTabRegistry.append(CreativeModeTabs.INGREDIENTS, REFORGING_TOKEN);
         CreativeTabRegistry.append(CreativeModeTabs.INGREDIENTS, WHETSTONE);
         CreativeTabRegistry.append(CreativeModeTabs.INGREDIENTS, COPPER_WOOL);
+    }
+
+    private static Component tip(String key) {
+        return Component.translatable("item.terrarian_reforging." + key).withStyle(ChatFormatting.GRAY);
     }
 
     private static <T extends Item>RegistrySupplier<T> register(String name, Function<Item.Properties, T> constructor) {
