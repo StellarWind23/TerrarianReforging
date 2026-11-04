@@ -41,9 +41,9 @@ public class TRItems {
                 List.of(/* addition slot icon sprite ids */),
                 properties.rarity(Rarity.UNCOMMON)));
 
-        WHETSTONE = register("whetstone", p -> new TooltipItem(p.rarity(Rarity.UNCOMMON).durability(17),
+        WHETSTONE = register("whetstone", p -> new TooltipItem(p.durability(20),
                 tip("whetstone.1"), tip("whetstone.2")));
-        COPPER_WOOL = register("copper_wool", p -> new TooltipItem(p.rarity(Rarity.UNCOMMON).durability(15),
+        COPPER_WOOL = register("copper_wool", p -> new TooltipItem(p.durability(25),
                 tip("copper_wool.1"), tip("copper_wool.2")));
 
         TR_ITEMS.register();
@@ -54,7 +54,7 @@ public class TRItems {
     }
 
     private static Component tip(String key) {
-        return Component.translatable("item.terrarian_reforging." + key).withStyle(ChatFormatting.GRAY);
+        return Component.translatable("item.terrarian_reforging." + key).withStyle(ChatFormatting.DARK_GRAY);
     }
 
     private static <T extends Item>RegistrySupplier<T> register(String name, Function<Item.Properties, T> constructor) {
