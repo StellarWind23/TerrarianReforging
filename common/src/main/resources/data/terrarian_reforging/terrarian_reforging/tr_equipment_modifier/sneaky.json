@@ -1,0 +1,14 @@
+{
+  "weight": 3,
+  "quality": 6,
+  "valid_items": "#terrarian_reforging:armor",
+  "modifiers": [
+    {
+      "attribute": "minecraft:tempt_range",
+      "amount": -0.15,
+      "operation": "add_multiplied_total",
+      "slot": "armor"
+    }
+  ],
+  "rarity": "uncommon"
+}

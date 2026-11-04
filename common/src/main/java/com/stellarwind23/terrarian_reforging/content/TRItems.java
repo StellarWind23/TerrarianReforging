@@ -41,7 +41,7 @@ public class TRItems {
                 List.of(/* addition slot icon sprite ids */),
                 properties.rarity(Rarity.UNCOMMON)));
 
-        WHETSTONE = register("whetstone", p -> new TooltipItem(p.rarity(Rarity.UNCOMMON).durability(25),
+        WHETSTONE = register("whetstone", p -> new TooltipItem(p.rarity(Rarity.UNCOMMON).durability(17),
                 tip("whetstone.1"), tip("whetstone.2")));
         COPPER_WOOL = register("copper_wool", p -> new TooltipItem(p.rarity(Rarity.UNCOMMON).durability(15),
                 tip("copper_wool.1"), tip("copper_wool.2")));

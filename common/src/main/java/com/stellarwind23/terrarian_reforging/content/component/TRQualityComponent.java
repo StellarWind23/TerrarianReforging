@@ -36,8 +36,7 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
             TRQuality.STREAM_CODEC.map(TRQualityComponent::new,TRQualityComponent::quality);
 
     @Override
-    public void addToTooltip(Item.@NonNull TooltipContext ctx, @NonNull Consumer<Component> consumer,
-                             @NonNull TooltipFlag flag, @NonNull DataComponentGetter getter) {
+    public void addToTooltip(Item.@NonNull TooltipContext ctx, @NonNull Consumer<Component> consumer, @NonNull TooltipFlag flag, @NonNull DataComponentGetter getter) {
 
         if (TRHideReforgeState.hideQuality()) return;
 
@@ -55,7 +54,7 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
         q.enchantability().ifPresent(b -> {
             if (b == 0) return;
             out.accept(Component.literal((b > 0 ? "+" : "") + b + " ")
-                    .append(Component.translatable("tr_quality.tooltip.enchantability"))
+                    .append(Component.translatable("tr_equipment_modifier.tooltip.enchantability"))
                     .withStyle(b > 0 ? TRTooltipColors.POSITIVE_IMPORTANT : TRTooltipColors.NEGATIVE_IMPORTANT));
         });
 

@@ -2,6 +2,7 @@ package com.stellarwind23.terrarian_reforging;
 
 import com.stellarwind23.terrarian_reforging.content.component.TRDataComponentTypes;
 import com.stellarwind23.terrarian_reforging.content.component.TRQualityComponent;
+import com.stellarwind23.terrarian_reforging.content.component.TRSharpenedComponent;
 import dev.architectury.event.events.client.ClientTooltipEvent;
 import net.minecraft.network.chat.Component;
 
@@ -13,11 +14,19 @@ public class TerrarianReforgingClient {
     public static void init() {
         ClientTooltipEvent.ITEM.register(((stack, lines, tooltipContext, flag) -> {
             TRQualityComponent qc = stack.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
-            if (qc == null || !qc.quality().isBound()) return;
+            TRSharpenedComponent sc = stack.get(TRDataComponentTypes.TR_SHARPENED_COMPONENT.get());
+
+            List<Component> extra = new ArrayList<>();
+
+            if(qc != null && qc.quality().isBound()) {
+                qc.addToTooltip(tooltipContext, extra::add, flag, stack);
+            }
+
+            if(sc != null) {
+                sc.addToTooltip(tooltipContext, extra::add, flag, stack);
+            }
 
             //Insert right under the item name
-            List<Component> extra = new ArrayList<>();
-            qc.addToTooltip(tooltipContext, extra::add,flag, stack);
             lines.addAll(Math.min(1, lines.size()), extra);
         }));
     }

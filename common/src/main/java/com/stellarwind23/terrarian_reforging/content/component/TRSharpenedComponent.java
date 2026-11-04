@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.stellarwind23.terrarian_reforging.TerrarianReforging;
 import com.stellarwind23.terrarian_reforging.util.TRTooltipColors;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.chat.Component;
@@ -36,8 +37,8 @@ public record TRSharpenedComponent(int uses) implements TooltipProvider {
 
     @Override
     public void addToTooltip(Item.@NonNull TooltipContext ctx, Consumer<Component> out, @NonNull TooltipFlag flag, @NonNull DataComponentGetter components) {
-        out.accept(Component.translatable("tr_sharpened.tooltip", uses, MAX_USES)
-                .withStyle(TRTooltipColors.POSITIVE));
+        out.accept(Component.translatable("tr_sharpened.tooltip", uses)
+                .withStyle(TRTooltipColors.POSITIVE_IMPORTANT));
     }
 
     public void forEachModifier(EquipmentSlot slot, BiConsumer<Holder<Attribute>, AttributeModifier> out) {

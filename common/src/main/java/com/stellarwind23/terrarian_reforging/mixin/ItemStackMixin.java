@@ -71,7 +71,7 @@ public abstract class ItemStackMixin {
 
         // Smithing result preview: scrambled prefix, readable base name, forced green
         if (TRHideReforgeState.hideQuality()) {
-            return Component.translatable("tr_quality.tooltip.hidden", original).withStyle(ChatFormatting.GREEN);
+            return Component.translatable("tr_equipment_modifier.tooltip.hidden", original).withStyle(ChatFormatting.GREEN);
         }
 
         // Normal display
