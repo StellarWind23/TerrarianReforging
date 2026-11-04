@@ -2,8 +2,10 @@ package com.stellarwind23.terrarian_reforging.util;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
+import com.stellarwind23.terrarian_reforging.content.component.TRDataComponentTypes;
 import com.stellarwind23.terrarian_reforging.content.component.TRQuality;
 import com.stellarwind23.terrarian_reforging.content.component.TRQualityComponent;
+import com.stellarwind23.terrarian_reforging.content.component.TRSharpenedComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.CommonComponents;
@@ -13,6 +15,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import org.apache.commons.lang3.function.TriConsumer;
 
@@ -40,10 +43,8 @@ public final class TRTooltipFolding {
     public record BaseRow(Holder<Attribute> attr, AttributeModifier mod, double value, boolean modified, boolean weapon) {}
 
     //Neoforge has to be special :/
-    public static List<BaseRow> foldBases(TRQualityComponent qc, EquipmentSlotGroup group,
-                                          Multimap<Holder<Attribute>, AttributeModifier> map) {
-        List<TRQuality.AttributeEntry> entries = qc.quality().value().modifiers().orElse(new ArrayList<>()).stream()
-                .filter(e -> covers(e.slots(), group)).toList();
+    public static List<BaseRow> foldBases(ItemStack stack, EquipmentSlotGroup group, Multimap<Holder<Attribute>, AttributeModifier> map) {
+        List<TRQuality.AttributeEntry> entries = entriesFor(stack, group);
         if (entries.isEmpty()) return List.of();
 
         List<BaseRow> rows = new ArrayList<>();
@@ -88,13 +89,9 @@ public final class TRTooltipFolding {
         return shown.slots().stream().allMatch(entryGroup::test);
     }
 
-    public static TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> wrap(
-            TRQualityComponent qc, EquipmentSlotGroup group,
-            TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> out) {
+    public static TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> wrap(ItemStack stack, EquipmentSlotGroup group, TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> out) {
 
-        List<TRQuality.AttributeEntry> entries = qc.quality().value().modifiers().orElse(new ArrayList<>()).stream()
-                .filter(e -> covers(e.slots(), group))
-                .toList();
+        List<TRQuality.AttributeEntry> entries = entriesFor(stack, group);
         if (entries.isEmpty()) return out;
 
         return (attr, mod, display) -> {
@@ -103,21 +100,12 @@ public final class TRTooltipFolding {
             List<TRQuality.AttributeEntry> mine = entries.stream()
                     .filter(e -> e.attribute().equals(attr)).toList();
 
-            if ((!weaponBase && !armorBase) || mine.isEmpty()) {   // every other vanilla line stays untouched
+            if ((!weaponBase && !armorBase) || mine.isEmpty()) {
                 out.accept(attr, mod, display);
                 return;
             }
 
-            double sum = playerBase(attr) + mod.amount();
-            double mulBase = 0, mulTotal = 1;
-            for (var e : mine) {
-                switch (e.operation()) {
-                    case ADD_VALUE -> sum += e.amount();
-                    case ADD_MULTIPLIED_BASE -> mulBase += e.amount();
-                    case ADD_MULTIPLIED_TOTAL -> mulTotal *= 1 + e.amount();
-                }
-            }
-            double value = sum * (1 + mulBase) * mulTotal;
+            double value = foldedValue(attr, mod.amount(), mine);
 
             Component name = Component.translatable(attr.value().getDescriptionId());
             Component line;
@@ -138,5 +126,21 @@ public final class TRTooltipFolding {
 
             out.accept(attr, mod, ItemAttributeModifiers.Display.override(line));
         };
+    }
+
+    private static List<TRQuality.AttributeEntry> entriesFor(ItemStack stack, EquipmentSlotGroup group) {
+        List<TRQuality.AttributeEntry> list = new ArrayList<>();
+
+        TRQualityComponent qc = stack.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
+        if (qc != null && qc.quality().isBound()) {
+            qc.quality().value().modifiers().ifPresent(mods ->
+                    mods.stream().filter(e -> covers(e.slots(), group)).forEach(list::add));
+        }
+
+        if (stack.has(TRDataComponentTypes.TR_SHARPENED_COMPONENT.get()) && covers(EquipmentSlotGroup.MAINHAND, group)) {
+            list.add(new TRQuality.AttributeEntry(Attributes.ATTACK_DAMAGE, TRSharpenedComponent.BONUS,
+                    AttributeModifier.Operation.ADD_VALUE, EquipmentSlotGroup.MAINHAND));
+        }
+        return list;
     }
 }

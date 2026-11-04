@@ -96,10 +96,9 @@ public abstract class ItemStackMixin {
     @ModifyVariable(
             method = "forEachModifier(Lnet/minecraft/world/entity/EquipmentSlotGroup;Lorg/apache/commons/lang3/function/TriConsumer;)V",
             at = @At("HEAD"), argsOnly = true)
-    private TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> tr$foldQuality(TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> triConsumer, EquipmentSlotGroup equipmentSlotGroup) {
-        var self = ((ItemStack) (Object) this);
-        TRQualityComponent qc = self.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
-        if (qc == null || !qc.quality().isBound()) return triConsumer;
-        return TRTooltipFolding.wrap(qc, equipmentSlotGroup, triConsumer);
+    private TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> tr$foldQuality(
+            TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> triConsumer,
+            EquipmentSlotGroup equipmentSlotGroup) {
+        return TRTooltipFolding.wrap((ItemStack) (Object) this, equipmentSlotGroup, triConsumer);
     }
 }

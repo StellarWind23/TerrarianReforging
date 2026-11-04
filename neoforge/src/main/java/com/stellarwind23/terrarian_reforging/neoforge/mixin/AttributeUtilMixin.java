@@ -32,27 +32,25 @@ public class AttributeUtilMixin {
             method = "applyModifierTooltips",
             at = @At(value = "INVOKE",
                     target = "Lnet/neoforged/neoforge/common/util/AttributeUtil;applyTextFor(Lnet/minecraft/world/item/ItemStack;Ljava/util/function/Consumer;Lcom/google/common/collect/Multimap;Lnet/neoforged/neoforge/common/util/AttributeTooltipContext;)V"))
-    private static void tr$fold(ItemStack stack, Consumer<Component> tooltip, Multimap<Holder<Attribute>, AttributeModifier> modifierMap, AttributeTooltipContext ctx, Operation<Void> original, @Local EquipmentSlotGroup group) {
+    private static void tr$fold(ItemStack stack, Consumer<Component> tooltip,
+                                Multimap<Holder<Attribute>, AttributeModifier> modifierMap,
+                                AttributeTooltipContext ctx, Operation<Void> original,
+                                @Local EquipmentSlotGroup group) {
 
-        TRQualityComponent qc = TRHideReforgeState.hideQuality() ? null
-                : stack.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
-
-        if (qc != null && qc.quality().isBound()) {
-            for (TRTooltipFolding.BaseRow row : TRTooltipFolding.foldBases(qc, group, modifierMap)) {
-                Attribute attr = row.attr().value();
-                if (row.weapon()) {
-                    double entityBase = ctx.player() == null ? 0 : Objects.requireNonNull(ctx.player()).getAttributeBaseValue(row.attr());
-                    double amt = row.value() - TRTooltipFolding.playerBase(row.attr()) + entityBase;
-                    tooltip.accept(Component.literal(" ")
-                            .append(attr.toBaseComponent(amt, entityBase, false, ctx.flag()))
-                            .withStyle(row.modified() ? TRTooltipColors.MODIFIED_WEAPON
-                                    : ChatFormatting.DARK_GREEN));
-                } else if (row.value() != 0) {
-                    var shown = new AttributeModifier(row.mod().id(), row.value(),
-                            AttributeModifier.Operation.ADD_VALUE);
-                    MutableComponent line = attr.toComponent(shown, ctx.flag());
-                    tooltip.accept(row.modified() ? line.withStyle(TRTooltipColors.MODIFIED_ARMOR) : line);
-                }
+        for (TRTooltipFolding.BaseRow row : TRTooltipFolding.foldBases(stack, group, modifierMap)) {
+            Attribute attr = row.attr().value();
+            if (row.weapon()) {
+                double entityBase = ctx.player() == null ? 0 : Objects.requireNonNull(ctx.player()).getAttributeBaseValue(row.attr());
+                double amt = row.value() - TRTooltipFolding.playerBase(row.attr()) + entityBase;
+                tooltip.accept(Component.literal(" ")
+                        .append(attr.toBaseComponent(amt, entityBase, false, ctx.flag()))
+                        .withStyle(row.modified() ? TRTooltipColors.MODIFIED_WEAPON
+                                : ChatFormatting.DARK_GREEN));
+            } else if (row.value() != 0) {
+                var shown = new AttributeModifier(row.mod().id(), row.value(),
+                        AttributeModifier.Operation.ADD_VALUE);
+                MutableComponent line = attr.toComponent(shown, ctx.flag());
+                tooltip.accept(row.modified() ? line.withStyle(TRTooltipColors.MODIFIED_ARMOR) : line);
             }
         }
         original.call(stack, tooltip, modifierMap, ctx);   // everything not folded renders as NeoForge normally
