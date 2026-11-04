@@ -13,6 +13,9 @@
   "mixins": [
     "AnvilMenuMixin",
     "CraftingMenuMixin",
+    "GrindstoneMenuAccessor",
+    "GrindstoneMenuMixin",
+    "GrindstoneResultSlotMixin",
     "ItemStackMixin",
     "LootTableMixin",
     "MerchantMenuMixin",
