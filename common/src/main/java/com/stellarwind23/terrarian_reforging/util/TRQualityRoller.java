@@ -11,6 +11,8 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantable;
 
@@ -19,7 +21,9 @@ import java.util.Optional;
 
 public final class TRQualityRoller {
 
-    public static boolean accepts(ItemStack stack) { return stack.is(TerrarianReforging.ACCEPTED_EQUIPMENT);}
+    public static boolean accepts(ItemStack stack) {
+        return stack.is(TerrarianReforging.ACCEPTED_EQUIPMENT);
+    }
 
     private static List<Holder.Reference<TRQuality>> candidates(HolderLookup.Provider regs, ItemStack stack) {
         Optional<ResourceKey<TRQuality>> cur = Optional.ofNullable(
@@ -36,17 +40,35 @@ public final class TRQualityRoller {
         return !candidates(regs, stack).isEmpty();
     }
 
-    public static Optional<Holder<TRQuality>> roll(HolderLookup.Provider regs, ItemStack stack, RandomSource rnd) {
-        var pool = candidates(regs, stack);
-        int total = pool.stream().mapToInt(h -> h.value().weight()).sum();
-        if(total <= 0) return Optional.empty();
+    /** weight + quality * luck, never below zero (same formula vanilla loot entries use). */
+    private static double effectiveWeight(TRQuality q, double luck) {
+        return Math.max(0.0, q.weight() + q.quality() * luck);
+    }
 
-        int r = rnd.nextInt(total);
-        for(Holder<TRQuality> h: pool) {
-            r -= h.value().weight();
-            if(r < 0) return Optional.of(h);
+    public static float luckOf(Player player) {
+        return (float) player.getAttributeValue(Attributes.LUCK);
+    }
+
+    public static Optional<Holder<TRQuality>> roll(HolderLookup.Provider regs, ItemStack stack, RandomSource rnd, double luck) {
+        var pool = candidates(regs, stack);
+        double total = pool.stream().mapToDouble(h -> effectiveWeight(h.value(), luck)).sum();
+        if (total <= 0) return Optional.empty();
+
+        double r = rnd.nextDouble() * total;
+        Holder<TRQuality> last = null;
+        for (Holder<TRQuality> h : pool) {
+            double w = effectiveWeight(h.value(), luck);
+            if (w <= 0) continue;
+            last = h;
+            r -= w;
+            if (r < 0) return Optional.of(h);
         }
-        return Optional.empty();
+        return Optional.ofNullable(last);   // floating-point safety net
+    }
+
+    /** No luck (e.g. the smithing table, which has no player in the recipe). */
+    public static Optional<Holder<TRQuality>> roll(HolderLookup.Provider regs, ItemStack stack, RandomSource rnd) {
+        return roll(regs, stack, rnd, 0D);
     }
 
     public static void apply(ItemStack stack, Holder<TRQuality> q) {
@@ -55,12 +77,12 @@ public final class TRQualityRoller {
         TRQualityEvents.QUALITY_APPLIED.invoker().onApplied(stack, q, old == null ? null : old.quality());
     }
 
-    public static void tryRollNew(HolderLookup.Provider regs, ItemStack stack, RandomSource rnd) {
+    public static void tryRollNew(HolderLookup.Provider regs, ItemStack stack, RandomSource rnd, double luck) {
         if (stack.isEmpty() || !accepts(stack)) return;
         if (stack.has(TRDataComponentTypes.TR_QUALITY_COMPONENT.get())) return;   // keeps qualities a table set itself
         if (rnd.nextFloat() >= TerrarianReforging.FIRST_CRAFT_CHANCE) return;
 
-        roll(regs, stack, rnd).ifPresent(q -> apply(stack, q));
+        roll(regs, stack, rnd, luck).ifPresent(q -> apply(stack, q));
     }
 
     public static void clear(ItemStack stack) {

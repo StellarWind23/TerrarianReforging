@@ -18,6 +18,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -29,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Objects;
 import java.util.function.BiConsumer;
 
 @Mixin(ItemStack.class)
@@ -59,7 +61,7 @@ public abstract class ItemStackMixin {
         if(player.level().isClientSide()) return; //Server only
 
         ItemStack self = (ItemStack) (Object) this;
-        TRQualityRoller.tryRollNew(player.level().registryAccess(), self, player.getRandom());
+        TRQualityRoller.tryRollNew(player.level().registryAccess(), self, player.getRandom(), Objects.requireNonNull(player.getAttribute(Attributes.LUCK)).getValue());
     }
 
     @ModifyReturnValue(method = "getHoverName", at = @At("RETURN"))

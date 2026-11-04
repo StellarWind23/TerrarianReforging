@@ -30,7 +30,7 @@ public abstract class LootTableMixin {
         ServerLevel level = lootContext.getLevel();
         RandomSource rnd = lootContext.getRandom();
         return stack -> {
-            TRQualityRoller.tryRollNew(level.registryAccess(), stack, rnd);
+            TRQualityRoller.tryRollNew(level.registryAccess(), stack, rnd, lootContext.getLuck());
             consumer.accept(stack);
         };
     }
