@@ -13,8 +13,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -23,8 +23,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
-import org.apache.commons.lang3.function.TriConsumer;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -37,32 +36,32 @@ import java.util.function.BiConsumer;
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {
 
-
-
+    // Gameplay: attribute modifiers for the slot the item is held or worn in
     @Inject(
             method = "forEachModifier(Lnet/minecraft/world/entity/EquipmentSlot;Ljava/util/function/BiConsumer;)V",
             at = @At("TAIL")
     )
-    private void tr$addQualityModifiers(EquipmentSlot equipmentSlot, BiConsumer<Holder<Attribute>, AttributeModifier> biConsumer, CallbackInfo ci)
-    {
-        var self = ((ItemStack) (Object) this);
-        TRQualityComponent qc = self.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
+    private void tr$addQualityModifiers(EquipmentSlot equipmentSlot,
+                                        BiConsumer<Holder<Attribute>, AttributeModifier> biConsumer,
+                                        CallbackInfo ci) {
+        var self = (ItemStack) (Object) this;
 
-        //Handle sharpened component
         var sh = self.get(TRDataComponentTypes.TR_SHARPENED_COMPONENT.get());
         if (sh != null) sh.forEachModifier(equipmentSlot, biConsumer);
 
-        if(qc != null) {
-            qc.forEachModifier(equipmentSlot, biConsumer);
-        }
+        TRQualityComponent qc = self.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
+        if (qc != null) qc.forEachModifier(equipmentSlot, biConsumer);
     }
 
+    // 1.21.1: onCraftedBy takes the Level as its first argument
     @Inject(method = "onCraftedBy", at = @At("HEAD"))
-    private void tr$rollOnFirstCraft(Player player, int i, CallbackInfo ci) {
-        if(player.level().isClientSide()) return; //Server only
+    private void tr$rollOnFirstCraft(Level level, Player player, int i, CallbackInfo ci) {
+        if (level.isClientSide()) return;   // server only
 
         ItemStack self = (ItemStack) (Object) this;
-        TRQualityRoller.tryRollNew(player.level().registryAccess(), self, player.getRandom(), Objects.requireNonNull(player.getAttribute(Attributes.LUCK)).getValue(), TerrarianReforgingConfig.crafting_modifier_chance);
+        TRQualityRoller.tryRollNew(level.registryAccess(), self, player.getRandom(),
+                Objects.requireNonNull(player.getAttribute(Attributes.LUCK)).getValue(),
+                TerrarianReforgingConfig.crafting_modifier_chance);
     }
 
     @ModifyReturnValue(method = "getHoverName", at = @At("RETURN"))
@@ -74,11 +73,11 @@ public abstract class ItemStackMixin {
 
         // Smithing result preview: scrambled prefix, readable base name, forced green
         if (TRHideReforgeState.hideQuality()) {
-            return Component.translatable("tr_equipment_modifier.tooltip.hidden", original).withStyle(ChatFormatting.GREEN);
+            return Component.translatable("tr_equipment_modifier.tooltip.hidden", original)
+                    .withStyle(ChatFormatting.GREEN);
         }
 
-        // Normal display
-        Identifier id = qc.quality().unwrapKey().map(ResourceKey::identifier).orElse(null);
+        ResourceLocation id = qc.quality().unwrapKey().map(ResourceKey::location).orElse(null);
         if (id == null) return original;
         TRQuality q = qc.quality().value();
         return q.decorate(id, original).copy().withStyle(q.styleOr(Style.EMPTY));
@@ -86,7 +85,6 @@ public abstract class ItemStackMixin {
 
     @ModifyReturnValue(method = "getRarity", at = @At("RETURN"))
     private Rarity tr$addRarity(Rarity original) {
-
         ItemStack self = (ItemStack) (Object) this;
         TRQualityComponent qc = self.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
         if (qc == null || !qc.quality().isBound()) return original;
@@ -96,12 +94,13 @@ public abstract class ItemStackMixin {
                 .orElse(original);
     }
 
+    // Tooltip: fold quality/sharpening into the vanilla base lines (plain BiConsumer in 1.21.1)
     @ModifyVariable(
-            method = "forEachModifier(Lnet/minecraft/world/entity/EquipmentSlotGroup;Lorg/apache/commons/lang3/function/TriConsumer;)V",
+            method = "forEachModifier(Lnet/minecraft/world/entity/EquipmentSlotGroup;Ljava/util/function/BiConsumer;)V",
             at = @At("HEAD"), argsOnly = true)
-    private TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> tr$foldQuality(
-            TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> triConsumer,
-            EquipmentSlotGroup equipmentSlotGroup) {
-        return TRTooltipFolding.wrap((ItemStack) (Object) this, equipmentSlotGroup, triConsumer);
+    private BiConsumer<Holder<Attribute>, AttributeModifier> tr$foldQuality(
+            BiConsumer<Holder<Attribute>, AttributeModifier> consumer,
+            EquipmentSlotGroup group) {
+        return TRTooltipFolding.wrap((ItemStack) (Object) this, group, consumer);
     }
 }

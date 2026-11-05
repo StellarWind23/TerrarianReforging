@@ -4,19 +4,19 @@
   "valid_items": "#minecraft:foot_armor",
   "modifiers": [
     {
-      "attribute": "minecraft:jump_strength",
+      "attribute": "minecraft:generic.jump_strength",
       "amount": 0.65,
       "operation": "add_multiplied_total",
       "slot": "feet"
     },
     {
-      "attribute": "minecraft:safe_fall_distance",
+      "attribute": "minecraft:generic.safe_fall_distance",
       "amount": 2,
       "operation": "add_value",
       "slot": "feet"
     },
     {
-      "attribute": "minecraft:step_height",
+      "attribute": "minecraft:generic.step_height",
       "amount": 1,
       "operation": "add_value",
       "slot": "feet"

@@ -4,19 +4,19 @@
   "valid_items": "#minecraft:foot_armor",
   "modifiers": [
     {
-      "attribute": "minecraft:safe_fall_distance",
+      "attribute": "minecraft:generic.safe_fall_distance",
       "amount": 4,
       "operation": "add_value",
       "slot": "feet"
     },
     {
-      "attribute": "minecraft:gravity",
+      "attribute": "minecraft:generic.gravity",
       "amount": -0.62,
       "operation": "add_multiplied_total",
       "slot": "feet"
     },
     {
-      "attribute": "minecraft:fall_damage_multiplier",
+      "attribute": "minecraft:generic.fall_damage_multiplier",
       "amount": -0.62,
       "operation": "add_multiplied_total",
       "slot": "feet"

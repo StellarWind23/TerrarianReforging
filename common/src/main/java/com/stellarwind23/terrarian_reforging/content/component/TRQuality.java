@@ -6,6 +6,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.stellarwind23.terrarian_reforging.TerrarianReforging;
+import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
@@ -16,11 +17,10 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.ExtraCodecs;
-import net.minecraft.util.Util;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -50,9 +50,9 @@ public record TRQuality(
             AttributeEntry.LIST_CODEC.optionalFieldOf("modifiers").forGetter(TRQuality::modifiers),
             Rarity.CODEC.optionalFieldOf("rarity").forGetter(TRQuality::rarity),
             TextColor.CODEC.optionalFieldOf("name_color").forGetter(TRQuality::nameColor),
-            ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("hand_scale").forGetter(TRQuality::handScale),
-            ExtraCodecs.floatRange(0.1F, 2F).optionalFieldOf("gui_scale").forGetter(TRQuality::guiScale),
-            ExtraCodecs.floatRange(0.01F, 10F).optionalFieldOf("durability_scale").forGetter(TRQuality::durabilityScale),
+            Codec.floatRange(0.1F, 2F).optionalFieldOf("hand_scale").forGetter(TRQuality::handScale),
+            Codec.floatRange(0.1F, 2F).optionalFieldOf("gui_scale").forGetter(TRQuality::guiScale),
+            Codec.floatRange(0.01F, 10F).optionalFieldOf("durability_scale").forGetter(TRQuality::durabilityScale),
             ExtraCodecs.intRange(-30, 30).optionalFieldOf("enchantability").forGetter(TRQuality::enchantability)
     ).apply(q, TRQuality::new));
 
@@ -117,9 +117,9 @@ public record TRQuality(
                 l -> l.stream().map(Optional::of).toList());
 
         //get as unique modifier(doesn't stack with itself)
-        public AttributeModifier toModifier(Identifier qualityId) {
-            Identifier attrId = attribute.unwrapKey().map(ResourceKey::identifier).orElseThrow();
-            Identifier modId = Identifier.fromNamespaceAndPath(
+        public AttributeModifier toModifier(ResourceLocation qualityId) {
+            ResourceLocation attrId = attribute.unwrapKey().map(ResourceKey::location).orElseThrow();
+            ResourceLocation modId = ResourceLocation.fromNamespaceAndPath(
                     qualityId.getNamespace(),
                     TerrarianReforging.CMP_NAME + "/" + qualityId.getPath() + "/" + attrId.getNamespace() + "_" + attrId.getPath()
             );
@@ -128,11 +128,11 @@ public record TRQuality(
     }
 
     //tr_quality.namespace.squishy -> "Squishy %s" (translatable prefix per lang)
-    public static String translationKey(Identifier id) {
+    public static String translationKey(ResourceLocation id) {
         return Util.makeDescriptionId(TerrarianReforging.CMP_NAME, id);
     }
 
-    public Component decorate(Identifier id, Component baseName) {
+    public Component decorate(ResourceLocation id, Component baseName) {
         return Component.translatable(translationKey(id), baseName);
     }
 

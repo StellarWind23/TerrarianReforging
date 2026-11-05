@@ -5,8 +5,8 @@ import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.UnaryOperator;
 
@@ -36,7 +36,7 @@ public class TRDataComponentTypes {
 
     private static <T> RegistrySupplier<DataComponentType<T>> registerComponent(String name, UnaryOperator<DataComponentType.Builder<T>> unaryOperator) {
         return TR_COMPONENTS.register(name, () -> {
-            ResourceKey.create(Registries.DATA_COMPONENT_TYPE, Identifier.fromNamespaceAndPath(TerrarianReforging.MOD_ID, name));
+            ResourceKey.create(Registries.DATA_COMPONENT_TYPE, ResourceLocation.fromNamespaceAndPath(TerrarianReforging.MOD_ID, name));
             return unaryOperator.apply(DataComponentType.builder()).build();
         });
     }

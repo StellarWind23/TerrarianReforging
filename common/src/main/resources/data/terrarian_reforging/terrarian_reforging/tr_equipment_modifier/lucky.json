@@ -4,7 +4,7 @@
   "valid_items": "#terrarian_reforging:leggings",
   "modifiers": [
     {
-    "attribute": "minecraft:luck",
+    "attribute": "minecraft:generic.luck",
     "amount": 2,
     "operation": "add_value",
     "slot": "armor"

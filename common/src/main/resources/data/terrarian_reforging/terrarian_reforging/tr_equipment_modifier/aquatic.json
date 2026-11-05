@@ -4,7 +4,7 @@
   "valid_items": "#minecraft:head_armor",
   "modifiers": [
     {
-      "attribute": "minecraft:oxygen_bonus",
+      "attribute": "minecraft:generic.oxygen_bonus",
       "amount": 1.0,
       "operation": "add_value",
       "slot": "head"

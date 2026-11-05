@@ -13,14 +13,13 @@ import dev.architectury.event.events.common.EntityEvent;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,15 +33,15 @@ public final class TerrarianReforging {
     public static final float FIRST_CRAFT_CHANCE = 0.6F; // move to config later
 
     public static final TagKey<Item> ACCEPTED_EQUIPMENT = TagKey.create(Registries.ITEM,
-            Identifier.fromNamespaceAndPath(TerrarianReforging.MOD_ID, "accepted_equipment"));
+            ResourceLocation.fromNamespaceAndPath(TerrarianReforging.MOD_ID, "accepted_equipment"));
 
     public static final TagKey<Attribute> CUSTOM_DESCRIPTOR = TagKey.create(
             Registries.ATTRIBUTE,
-            Identifier.fromNamespaceAndPath(TerrarianReforging.MOD_ID, "custom_descriptor"));
+            ResourceLocation.fromNamespaceAndPath(TerrarianReforging.MOD_ID, "custom_descriptor"));
 
 
     public static final ResourceKey<Registry<TRQuality>> REG_KEY = ResourceKey.createRegistryKey(
-            Identifier.fromNamespaceAndPath(MOD_ID, CMP_NAME)
+            ResourceLocation.fromNamespaceAndPath(MOD_ID, CMP_NAME)
     );
 
     public static void init() {
@@ -66,12 +65,6 @@ public final class TerrarianReforging {
             // keep the same fraction worn, so reforging doesn't heal or break the item
             if (oldMax > 0) {
                 stack.setDamageValue(Math.min(newMax - 1, Math.round((float) damage / oldMax * newMax)));
-            }
-
-            Enchantable baseEnch = stack.getItem().components().get(DataComponents.ENCHANTABLE);
-            if (baseEnch != null) {   // only items that are enchantable to begin with
-                int bonus = quality.value().enchantability().orElse(0);
-                stack.set(DataComponents.ENCHANTABLE, new Enchantable(Math.max(1, baseEnch.value() + bonus)));
             }
         });
 

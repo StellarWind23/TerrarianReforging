@@ -1,13 +1,12 @@
 {
-  "replace": false,
   "values": [
     "#minecraft:pickaxes",
     "#minecraft:axes",
     "#minecraft:shovels",
     "#minecraft:hoes",
-    "#c:tools/shear",
-    "#c:tools/wrench",
-    "#c:tools/brush",
-    "#c:tools/igniter"
+    { "id": "#c:tools/shear", "required": false },
+    { "id": "#c:tools/wrench", "required": false },
+    { "id": "#c:tools/brush", "required": false },
+    { "id": "#c:tools/igniter", "required": false }
   ]
 }

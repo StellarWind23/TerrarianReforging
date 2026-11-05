@@ -36,7 +36,7 @@ public final class TRQualityCommand {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext ctx) {
         dispatcher.register(Commands.literal("reforge")
-                .requires(Commands.hasPermission(Commands.LEVEL_GAMEMASTERS))
+                .requires(src -> src.hasPermission(Commands.LEVEL_GAMEMASTERS))
                 .then(Commands.argument("targets", EntityArgument.entities())
                         .then(Commands.literal("clear")
                                 .executes(c -> clear(c.getSource(), EntityArgument.getEntities(c, "targets"))))
@@ -48,7 +48,7 @@ public final class TRQualityCommand {
 
     private static int set(CommandSourceStack src, Collection<? extends Entity> targets,
                            Holder<TRQuality> quality) throws CommandSyntaxException {
-        String id = quality.unwrapKey().map(k -> k.identifier().toString()).orElse("?");
+        String id = quality.unwrapKey().map(k -> k.location().toString()).orElse("?");
         int count = 0;
         LivingEntity single = null;
         ItemStack singleStack = ItemStack.EMPTY;

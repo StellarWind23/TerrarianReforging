@@ -4,18 +4,16 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.stellarwind23.terrarian_reforging.util.TRQualityRoller;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
-import net.minecraft.world.item.enchantment.Repairable;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.SmithingRecipe;
+import net.minecraft.world.item.crafting.SmithingRecipeInput;
 import net.minecraft.world.level.Level;
-import org.jspecify.annotations.NonNull;
-
-import java.util.List;
-import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 
 public record TRReforgeRecipe(Ingredient template, Ingredient base, Ingredient addition) implements SmithingRecipe {
 
@@ -32,32 +30,30 @@ public record TRReforgeRecipe(Ingredient template, Ingredient base, Ingredient a
             TRReforgeRecipe::new);
 
     @Override
-    public boolean matches(@NonNull SmithingRecipeInput smithingRecipeInput, @NonNull Level level) {
-        if (!template.test(smithingRecipeInput.template()) || !base.test(smithingRecipeInput.base()) || !addition.test(smithingRecipeInput.addition())) return false;
+    public boolean matches(SmithingRecipeInput input, Level level) {
+        if (!template.test(input.template()) || !base.test(input.base()) || !addition.test(input.addition())) {
+            return false;
+        }
 
-        Repairable repairable = smithingRecipeInput.base().get(DataComponents.REPAIRABLE);
-        if (repairable == null || !repairable.isValidRepairItem(smithingRecipeInput.addition())) return false;
+        // 1.21.1: repair materials are asked of the item itself (no REPAIRABLE component yet)
+        ItemStack baseStack = input.base();
+        if (!baseStack.getItem().isValidRepairItem(baseStack, input.addition())) return false;
 
-        return TRQualityRoller.hasCandidates(level.registryAccess(), smithingRecipeInput.base());
+        return TRQualityRoller.hasCandidates(level.registryAccess(), baseStack);
     }
 
+    // 1.21.1's SmithingRecipe asks about each slot by stack instead of exposing the ingredients
     @Override
-    public @NonNull Optional<Ingredient> templateIngredient() {
-        return Optional.of(template);
-    }
+    public boolean isTemplateIngredient(ItemStack stack) { return template.test(stack); }
 
     @Override
-    public @NonNull Ingredient baseIngredient() {
-        return base;
-    }
+    public boolean isBaseIngredient(ItemStack stack) { return base.test(stack); }
 
     @Override
-    public @NonNull Optional<Ingredient> additionIngredient() {
-        return Optional.of(addition);
-    }
+    public boolean isAdditionIngredient(ItemStack stack) { return addition.test(stack); }
 
     @Override
-    public @NonNull ItemStack assemble(SmithingRecipeInput in, HolderLookup.@NonNull Provider registries) {
+    public @NotNull ItemStack assemble(SmithingRecipeInput in, HolderLookup.Provider registries) {
         ItemStack out = in.base().copyWithCount(1);
         return TRQualityRoller.roll(registries, out, RandomSource.create())
                 .map(q -> { TRQualityRoller.apply(out, q); return out; })
@@ -65,11 +61,10 @@ public record TRReforgeRecipe(Ingredient template, Ingredient base, Ingredient a
     }
 
     @Override
-    public @NonNull RecipeSerializer<TRReforgeRecipe> getSerializer() { return TRRecipeSerializers.REFORGE.get(); }
+    public @NotNull ItemStack getResultItem(HolderLookup.Provider registries) {
+        return ItemStack.EMPTY;   // the result depends on the roll, so there's no fixed output to show
+    }
 
     @Override
-    public @NonNull PlacementInfo placementInfo() {
-        return PlacementInfo.createFromOptionals(
-                List.of(Optional.of(template), Optional.of(base), Optional.of(addition)));
-    }
+    public @NotNull RecipeSerializer<TRReforgeRecipe> getSerializer() { return TRRecipeSerializers.REFORGE.get(); }
 }

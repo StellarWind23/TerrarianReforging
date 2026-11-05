@@ -4,7 +4,7 @@
   "valid_items": "#minecraft:chest_armor",
   "modifiers": [
     {
-      "attribute": "minecraft:knockback_resistance",
+      "attribute": "minecraft:generic.knockback_resistance",
       "amount": 0.1,
       "operation": "add_value",
       "slot": "chest"

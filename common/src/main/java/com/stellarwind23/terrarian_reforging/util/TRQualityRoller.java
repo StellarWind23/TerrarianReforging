@@ -14,7 +14,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantable;
 
 import java.util.List;
 import java.util.Optional;
@@ -99,12 +98,17 @@ public final class TRQualityRoller {
                 stack.setDamageValue(Math.min(base - 1, Math.round((float) damage / oldMax * base)));
             }
         }
-
-        Enchantable ench = proto.get(DataComponents.ENCHANTABLE);
-        if (ench != null) stack.set(DataComponents.ENCHANTABLE, ench);
     }
 
     public static boolean supports(Holder<TRQuality> quality, ItemStack stack) {
         return quality.value().applicableTo().contains(stack.getItemHolder());
+    }
+
+    public static int adjustEnchantability(int original, ItemStack stack) {
+        if (original <= 0) return original;   // not enchantable stays not enchantable
+        TRQualityComponent qc = stack.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
+        if (qc == null || !qc.quality().isBound()) return original;
+        int bonus = qc.quality().value().enchantability().orElse(0);
+        return Math.max(1, original + bonus);
     }
 }

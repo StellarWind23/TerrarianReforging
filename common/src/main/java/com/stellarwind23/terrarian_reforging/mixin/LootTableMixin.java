@@ -4,10 +4,10 @@ import com.stellarwind23.terrarian_reforging.config.TerrarianReforgingConfig;
 import com.stellarwind23.terrarian_reforging.util.TRQualityRoller;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.context.ContextKeySet;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 public abstract class LootTableMixin {
 
     @Shadow
-    public abstract ContextKeySet getParamSet();   // type name differs by version, see note below
+    public abstract LootContextParamSet getParamSet();
 
     @ModifyVariable(
             method = "getRandomItemsRaw(Lnet/minecraft/world/level/storage/loot/LootContext;Ljava/util/function/Consumer;)V",
@@ -31,7 +31,8 @@ public abstract class LootTableMixin {
         ServerLevel level = lootContext.getLevel();
         RandomSource rnd = lootContext.getRandom();
         return stack -> {
-            TRQualityRoller.tryRollNew(level.registryAccess(), stack, rnd, lootContext.getLuck(), TerrarianReforgingConfig.loot_table_modifier_chance);
+            TRQualityRoller.tryRollNew(level.registryAccess(), stack, rnd, lootContext.getLuck(),
+                    TerrarianReforgingConfig.loot_table_modifier_chance);
             consumer.accept(stack);
         };
     }

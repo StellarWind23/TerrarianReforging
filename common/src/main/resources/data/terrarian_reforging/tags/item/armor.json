@@ -1,10 +1,7 @@
 {
     "replace": false,
     "values": [
-        "#minecraft:head_armor",
-        "#minecraft:chest_armor",
-        "#minecraft:leg_armor",
-        "#minecraft:foot_armor",
-        "#c:armors/humanoid"
+        "#minecraft:trimmable_armor",
+        { "id": "#c:armors", "required": false }
     ]
 }

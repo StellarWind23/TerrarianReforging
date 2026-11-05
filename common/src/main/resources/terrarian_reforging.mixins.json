@@ -6,13 +6,12 @@
   "client": [
     "client.AbstractContainerScreenMixin",
     "client.AnvilScreenMixin",
-    "client.ItemModelResolverMixin",
-    "client.ItemStackRenderStateAccessor",
-    "client.LayerRenderStateAccessor"
+    "client.ItemRendererMixin"
   ],
   "mixins": [
     "AnvilMenuMixin",
     "CraftingMenuMixin",
+    "EnchantmentHelperMixin",
     "GrindstoneMenuAccessor",
     "GrindstoneMenuMixin",
     "GrindstoneResultSlotMixin",

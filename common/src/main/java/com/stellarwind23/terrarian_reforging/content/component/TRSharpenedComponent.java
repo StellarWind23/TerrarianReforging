@@ -4,13 +4,11 @@ import com.mojang.serialization.Codec;
 import com.stellarwind23.terrarian_reforging.TerrarianReforging;
 import com.stellarwind23.terrarian_reforging.util.TRTooltipColors;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -19,15 +17,14 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipProvider;
-import org.jspecify.annotations.NonNull;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public record TRSharpenedComponent(int uses) implements TooltipProvider {
     public static final double BONUS = 1.0;     // attack damage; 1.0 = half a heart
-    public static final Identifier MODIFIER_ID =
-            Identifier.fromNamespaceAndPath(TerrarianReforging.MOD_ID, "sharpened");
+    public static final ResourceLocation MODIFIER_ID =
+            ResourceLocation.fromNamespaceAndPath(TerrarianReforging.MOD_ID, "sharpened");
 
     public static final Codec<TRSharpenedComponent> CODEC =
             ExtraCodecs.POSITIVE_INT.xmap(TRSharpenedComponent::new, TRSharpenedComponent::uses);
@@ -35,7 +32,7 @@ public record TRSharpenedComponent(int uses) implements TooltipProvider {
             ByteBufCodecs.VAR_INT.map(TRSharpenedComponent::new, TRSharpenedComponent::uses);
 
     @Override
-    public void addToTooltip(Item.@NonNull TooltipContext ctx, Consumer<Component> out, @NonNull TooltipFlag flag, @NonNull DataComponentGetter components) {
+    public void addToTooltip(Item.TooltipContext ctx, Consumer<Component> out, TooltipFlag flag) {
         out.accept(Component.translatable("tr_sharpened.tooltip", uses)
                 .withStyle(TRTooltipColors.POSITIVE_IMPORTANT));
     }

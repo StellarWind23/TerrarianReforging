@@ -6,8 +6,8 @@
     "***"
   ],
   "key": {
-    "*": "minecraft:copper_nugget",
-    "#": "#minecraft:wool"
+    "*": { "item": "minecraft:copper_nugget" },
+    "#": { "tag": "minecraft:wool" }
   },
   "result": {
     "id": "terrarian_reforging:copper_wool"

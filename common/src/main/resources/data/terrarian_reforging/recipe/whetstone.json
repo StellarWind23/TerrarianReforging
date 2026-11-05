@@ -5,8 +5,8 @@
     "#*"
   ],
   "key": {
-    "*": "minecraft:iron_ingot",
-    "#": "minecraft:polished_deepslate"
+    "*": { "item": "minecraft:iron_ingot" },
+    "#": { "item": "minecraft:polished_deepslate" }
   },
   "result": {
     "id": "terrarian_reforging:whetstone"

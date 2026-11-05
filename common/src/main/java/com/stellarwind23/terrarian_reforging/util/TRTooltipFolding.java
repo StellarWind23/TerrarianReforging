@@ -10,6 +10,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -22,6 +23,7 @@ import org.apache.commons.lang3.function.TriConsumer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 public final class TRTooltipFolding {
 
@@ -86,45 +88,34 @@ public final class TRTooltipFolding {
 
     private static boolean covers(EquipmentSlotGroup entryGroup, EquipmentSlotGroup shown) {
         if (entryGroup == shown) return true;
-        return shown.slots().stream().allMatch(entryGroup::test);
+        for (EquipmentSlot slot : EquipmentSlot.values()) {
+            if (shown.test(slot) && !entryGroup.test(slot)) return false;
+        }
+        return true;
     }
 
-    public static TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> wrap(ItemStack stack, EquipmentSlotGroup group, TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> out) {
+    public static BiConsumer<Holder<Attribute>, AttributeModifier> wrap(
+            ItemStack stack, EquipmentSlotGroup group,
+            BiConsumer<Holder<Attribute>, AttributeModifier> out) {
 
         List<TRQuality.AttributeEntry> entries = entriesFor(stack, group);
         if (entries.isEmpty()) return out;
 
-        return (attr, mod, display) -> {
+        return (attr, mod) -> {
             boolean weaponBase = isWeaponBase(mod);
             boolean armorBase = isArmorBase(attr, mod);
             List<TRQuality.AttributeEntry> mine = entries.stream()
                     .filter(e -> e.attribute().equals(attr)).toList();
 
-            if ((!weaponBase && !armorBase) || mine.isEmpty()) {
-                out.accept(attr, mod, display);
+            if ((!weaponBase && !armorBase) || mine.isEmpty()) {   // every other line stays untouched
+                out.accept(attr, mod);
                 return;
             }
 
             double value = foldedValue(attr, mod.amount(), mine);
-
-            Component name = Component.translatable(attr.value().getDescriptionId());
-            Component line;
-
-            if (armorBase) {
-                // normal "+3 Armor" / "-1 Armor Toughness" style, aqua because it was modified
-                String key = value < 0 ? "attribute.modifier.take.0" : "attribute.modifier.plus.0";
-                line = Component.translatable(key,
-                                ItemAttributeModifiers.ATTRIBUTE_MODIFIER_FORMAT.format(Math.abs(value)), name)
-                        .withStyle(TRTooltipColors.MODIFIED_ARMOR);
-            } else {
-                // base weapon stats keep the " 8 Attack Damage" form, green when modified
-                line = CommonComponents.space()
-                        .append(Component.translatable("attribute.modifier.equals.0",
-                                ItemAttributeModifiers.ATTRIBUTE_MODIFIER_FORMAT.format(value), name))
-                        .withStyle(TRTooltipColors.MODIFIED_WEAPON);
-            }
-
-            out.accept(attr, mod, ItemAttributeModifiers.Display.override(line));
+            // vanilla adds the player's own base value back for weapon base lines, so subtract it here
+            double amount = weaponBase ? value - playerBase(attr) : value;
+            out.accept(attr, new AttributeModifier(mod.id(), amount, AttributeModifier.Operation.ADD_VALUE));
         };
     }
 

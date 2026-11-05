@@ -6,7 +6,7 @@ import com.stellarwind23.terrarian_reforging.content.TRItems;
 import com.stellarwind23.terrarian_reforging.content.component.TRDataComponentTypes;
 import com.stellarwind23.terrarian_reforging.content.component.TRSharpenedComponent;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -14,7 +14,7 @@ import net.minecraft.world.item.ItemStack;
 public final class TRGrindstone {
     public enum Kind { NONE, CLEANSE, SHARPEN }
     public static final TagKey<Item> SHARPENABLE = TagKey.create(Registries.ITEM,
-            Identifier.fromNamespaceAndPath(TerrarianReforging.MOD_ID, "sharpenable"));
+            ResourceLocation.fromNamespaceAndPath(TerrarianReforging.MOD_ID, "sharpenable"));
     public static final ThreadLocal<Boolean> NO_XP = ThreadLocal.withInitial(() -> false);
 
     private static boolean isTool(ItemStack s) {

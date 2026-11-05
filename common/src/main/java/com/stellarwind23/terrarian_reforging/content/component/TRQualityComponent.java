@@ -4,25 +4,19 @@ import com.mojang.serialization.Codec;
 import com.stellarwind23.terrarian_reforging.TerrarianReforging;
 import com.stellarwind23.terrarian_reforging.util.TRTooltipColors;
 import com.stellarwind23.terrarian_reforging.util.client.TRHideReforgeState;
-import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponentGetter;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.util.Util;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipProvider;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
-import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
@@ -38,18 +32,19 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
 
 
     @Override
-    public void addToTooltip(Item.@NonNull TooltipContext ctx, @NonNull Consumer<Component> consumer, @NonNull TooltipFlag flag, @NonNull DataComponentGetter getter) {
+    public void addToTooltip(Item.TooltipContext tooltipContext, Consumer<Component> consumer, TooltipFlag tooltipFlag) {
+        printLines(consumer);
+    }
 
-        if (TRHideReforgeState.hideQuality()) return;
+    public int printLines(Consumer<Component> consumer) {
+        if (TRHideReforgeState.hideQuality()) return 0;
 
         TRQuality q = quality.value();
 
-        // count what we print, so an empty quality doesn't leave a stray blank line
         int[] printed = {0};
         Consumer<Component> out = c -> { printed[0]++; consumer.accept(c); };
 
-        var m = q.modifiers().orElse(new ArrayList<>());
-        for (TRQuality.AttributeEntry ae : m) {
+        for (TRQuality.AttributeEntry ae : q.modifiers().orElse(new ArrayList<>())) {
             out.accept(formatLine(ae));
         }
 
@@ -61,10 +56,7 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
                     .withStyle(b > 0 ? TRTooltipColors.POSITIVE_IMPORTANT : TRTooltipColors.NEGATIVE_IMPORTANT));
         });
 
-        boolean enchanted = !getter.getOrDefault(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY).isEmpty();
-        if (enchanted && printed[0] > 0) {
-            consumer.accept(CommonComponents.EMPTY);
-        }
+        return printed[0];
     }
 
     private static Component formatLine(TRQuality.AttributeEntry ae) {
@@ -87,7 +79,7 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
     }
 
     private static String customKey(Holder<Attribute> attr) {
-        Identifier id = attr.unwrapKey().map(ResourceKey::identifier).orElseThrow();
+        ResourceLocation id = attr.unwrapKey().map(ResourceKey::location).orElseThrow();
         return Util.makeDescriptionId(TerrarianReforging.CMP_NAME + ".attribute", id);
     }
 
@@ -104,7 +96,7 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
 
     public void forEachModifier(EquipmentSlot slot, BiConsumer<Holder<Attribute>, AttributeModifier> out) {
         if(!quality.isBound()) return;
-        Identifier id = quality.unwrapKey().map(ResourceKey::identifier).orElse(null);
+        ResourceLocation id = quality.unwrapKey().map(ResourceKey::location).orElse(null);
         if(id == null) return;
 
         var m = quality.value().modifiers().orElse(new ArrayList<>());
@@ -114,6 +106,4 @@ public record TRQualityComponent(Holder<TRQuality> quality) implements TooltipPr
             }
         }
     }
-
-
 }

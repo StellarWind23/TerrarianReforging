@@ -4,11 +4,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.TooltipDisplay;
-import org.jspecify.annotations.NonNull;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 public class TooltipItem extends Item {
     private final List<Component> lines;
@@ -18,10 +15,9 @@ public class TooltipItem extends Item {
         this.lines = List.of(lines);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public void appendHoverText(@NonNull ItemStack stack, Item.@NonNull TooltipContext ctx, @NonNull TooltipDisplay display, @NonNull Consumer<Component> out, @NonNull TooltipFlag flag) {
-        super.appendHoverText(stack, ctx, display, out, flag);
-        lines.forEach(out);
+    public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltipFlag) {
+        super.appendHoverText(itemStack, tooltipContext, list, tooltipFlag);
+        list.addAll(lines);
     }
 }

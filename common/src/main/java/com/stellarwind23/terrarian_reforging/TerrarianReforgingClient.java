@@ -4,6 +4,7 @@ import com.stellarwind23.terrarian_reforging.content.component.TRDataComponentTy
 import com.stellarwind23.terrarian_reforging.content.component.TRQualityComponent;
 import com.stellarwind23.terrarian_reforging.content.component.TRSharpenedComponent;
 import dev.architectury.event.events.client.ClientTooltipEvent;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
 import java.util.ArrayList;
@@ -18,12 +19,13 @@ public class TerrarianReforgingClient {
 
             List<Component> extra = new ArrayList<>();
 
-            if(qc != null && qc.quality().isBound()) {
-                qc.addToTooltip(tooltipContext, extra::add, flag, stack);
+            if (qc != null && qc.quality().isBound()) {
+                int added = qc.printLines(lines::add);
+                if (added > 0 && stack.isEnchanted()) lines.add(CommonComponents.EMPTY);
             }
 
             if(sc != null) {
-                sc.addToTooltip(tooltipContext, extra::add, flag, stack);
+                sc.addToTooltip(tooltipContext, extra::add, flag);
             }
 
             //Insert right under the item name

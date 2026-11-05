@@ -1,8 +1,9 @@
 {
     "replace": false,
     "values": [
-        "#c:tools/melee_weapon",
-        "#c:tools/spear",
-        "#c:tools/mace"
+        { "id": "#c:tools/melee_weapon", "required": false },
+        { "id": "#c:tools/mace", "required": false },
+        "#minecraft:swords",
+        "#minecraft:axes"
     ]
 }

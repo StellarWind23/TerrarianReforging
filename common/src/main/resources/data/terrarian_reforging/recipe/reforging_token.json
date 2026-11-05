@@ -6,9 +6,9 @@
     "***"
   ],
   "key": {
-    "*": "minecraft:emerald",
-    "T": "terrarian_reforging:reforging_token",
-    "#": "minecraft:terracotta"
+    "*": { "item": "minecraft:emerald" },
+    "T": { "item": "terrarian_reforging:reforging_token" },
+    "#": { "item": "minecraft:terracotta" }
   },
   "result": {
     "id": "terrarian_reforging:reforging_token",
