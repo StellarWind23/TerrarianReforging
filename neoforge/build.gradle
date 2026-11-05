@@ -2,6 +2,10 @@ plugins {
     id 'com.github.johnrengelman.shadow'
 }
 
+repositories {
+    maven {url = "https://api.modrinth.com/maven"}
+}
+
 architectury {
     platformSetupLoomIde()
     neoForge()
@@ -33,8 +37,12 @@ repositories {
 
 dependencies {
     neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
-
     modImplementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
+    include "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
+
+    //Midnight lib
+    modImplementation "maven.modrinth:midnightlib:${project.midnightlib_version}-neoforge"
+    include "maven.modrinth:midnightlib:${project.midnightlib_version}-neoforge"
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
@@ -53,9 +61,10 @@ processResources {
                 issues_url               : rootProject.issues_url,
                 license                  : rootProject.license,
                 java_version             : rootProject.java_version,
+                neoforge_version         : rootProject.neoforge_version,
                 minecraft_version        : rootProject.minecraft_version,
                 architectury_api_version : rootProject.architectury_api_version,
-                neoforge_version         : rootProject.neoforge_version
+                midnightlib_version      : rootProject.midnightlib_version
         ]
 
         inputs.properties properties

@@ -1,6 +1,7 @@
 package com.stellarwind23.terrarian_reforging.util;
 
 import com.stellarwind23.terrarian_reforging.TerrarianReforging;
+import com.stellarwind23.terrarian_reforging.config.TerrarianReforgingConfig;
 import com.stellarwind23.terrarian_reforging.content.TRItems;
 import com.stellarwind23.terrarian_reforging.content.component.TRDataComponentTypes;
 import com.stellarwind23.terrarian_reforging.content.component.TRSharpenedComponent;
@@ -30,7 +31,7 @@ public final class TRGrindstone {
 
         var sh = target.get(TRDataComponentTypes.TR_SHARPENED_COMPONENT.get());
         int uses = sh == null ? 0 : sh.uses();
-        return target.is(SHARPENABLE) && uses < TRSharpenedComponent.MAX_USES ? Kind.SHARPEN : Kind.NONE;
+        return target.is(SHARPENABLE) && uses < TerrarianReforgingConfig.sharpening_uses ? Kind.SHARPEN : Kind.NONE;
     }
 
     public static int toolSlot(ItemStack a, ItemStack b) { return isTool(a) ? 0 : 1; }
@@ -40,7 +41,7 @@ public final class TRGrindstone {
         switch (kind) {
             case CLEANSE -> TRQualityRoller.clear(r);
             case SHARPEN -> r.set(TRDataComponentTypes.TR_SHARPENED_COMPONENT.get(),
-                    new TRSharpenedComponent(TRSharpenedComponent.MAX_USES));
+                    new TRSharpenedComponent(TerrarianReforgingConfig.sharpening_uses));
             default -> {}
         }
         return r;

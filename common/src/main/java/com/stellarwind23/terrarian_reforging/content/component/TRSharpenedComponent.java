@@ -25,7 +25,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public record TRSharpenedComponent(int uses) implements TooltipProvider {
-    public static final int MAX_USES = 50;      // config later
     public static final double BONUS = 1.0;     // attack damage; 1.0 = half a heart
     public static final Identifier MODIFIER_ID =
             Identifier.fromNamespaceAndPath(TerrarianReforging.MOD_ID, "sharpened");

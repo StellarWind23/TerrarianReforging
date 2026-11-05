@@ -32,6 +32,13 @@ versionRange = "[${architectury_api_version},)"
 ordering = "AFTER"
 side = "BOTH"
 
+[[dependencies.${modid}]]
+modId = "midnightlib"
+type = "required"
+versionRange = "[${midnightlib_version},)"
+ordering = "AFTER"
+side = "BOTH"
+
 [[mixins]]
 config = "${modid}.mixins.json"
 

@@ -1,5 +1,6 @@
 package com.stellarwind23.terrarian_reforging.mixin;
 
+import com.stellarwind23.terrarian_reforging.config.TerrarianReforgingConfig;
 import com.stellarwind23.terrarian_reforging.util.TRQualityRoller;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -21,6 +22,6 @@ public abstract class MerchantMenuMixin {
         if (i != 2 || player.level().isClientSide()) return;   // 2 = trade result slot
 
         ItemStack result = ((AbstractContainerMenu) (Object) this).getSlot(2).getItem();
-        TRQualityRoller.tryRollNew(player.level().registryAccess(), result, player.getRandom(), Objects.requireNonNull(player.getAttribute(Attributes.LUCK)).getValue());
+        TRQualityRoller.tryRollNew(player.level().registryAccess(), result, player.getRandom(), Objects.requireNonNull(player.getAttribute(Attributes.LUCK)).getValue(), TerrarianReforgingConfig.trading_modifier_chance);
     }
 }

@@ -2,11 +2,14 @@ package com.stellarwind23.terrarian_reforging.neoforge;
 
 import com.stellarwind23.terrarian_reforging.TerrarianReforging;
 import com.stellarwind23.terrarian_reforging.TerrarianReforgingClient;
+import com.stellarwind23.terrarian_reforging.config.TerrarianReforgingConfig;
 import com.stellarwind23.terrarian_reforging.content.component.TRQuality;
 import com.stellarwind23.terrarian_reforging.content.crafting.TRTrades;
+import eu.midnightdust.lib.config.MidnightConfig;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
@@ -32,6 +35,10 @@ public final class TerrarianReforgingNeoForge {
 
         modBus.addListener((FMLClientSetupEvent e) -> {
             TerrarianReforgingClient.init();
+        });
+
+        modBus.addListener((FMLCommonSetupEvent e) -> {
+            MidnightConfig.init(TerrarianReforging.MOD_ID, TerrarianReforgingConfig.class);
         });
     }
 }

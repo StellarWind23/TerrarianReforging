@@ -1,5 +1,6 @@
 package com.stellarwind23.terrarian_reforging.mixin;
 
+import com.stellarwind23.terrarian_reforging.config.TerrarianReforgingConfig;
 import com.stellarwind23.terrarian_reforging.util.TRQualityRoller;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -30,7 +31,7 @@ public abstract class LootTableMixin {
         ServerLevel level = lootContext.getLevel();
         RandomSource rnd = lootContext.getRandom();
         return stack -> {
-            TRQualityRoller.tryRollNew(level.registryAccess(), stack, rnd, lootContext.getLuck());
+            TRQualityRoller.tryRollNew(level.registryAccess(), stack, rnd, lootContext.getLuck(), TerrarianReforgingConfig.loot_table_modifier_chance);
             consumer.accept(stack);
         };
     }

@@ -1,6 +1,7 @@
 package com.stellarwind23.terrarian_reforging.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.stellarwind23.terrarian_reforging.config.TerrarianReforgingConfig;
 import com.stellarwind23.terrarian_reforging.content.component.TRDataComponentTypes;
 import com.stellarwind23.terrarian_reforging.content.component.TRQuality;
 import com.stellarwind23.terrarian_reforging.content.component.TRQualityComponent;
@@ -61,7 +62,7 @@ public abstract class ItemStackMixin {
         if(player.level().isClientSide()) return; //Server only
 
         ItemStack self = (ItemStack) (Object) this;
-        TRQualityRoller.tryRollNew(player.level().registryAccess(), self, player.getRandom(), Objects.requireNonNull(player.getAttribute(Attributes.LUCK)).getValue());
+        TRQualityRoller.tryRollNew(player.level().registryAccess(), self, player.getRandom(), Objects.requireNonNull(player.getAttribute(Attributes.LUCK)).getValue(), TerrarianReforgingConfig.crafting_modifier_chance);
     }
 
     @ModifyReturnValue(method = "getHoverName", at = @At("RETURN"))
