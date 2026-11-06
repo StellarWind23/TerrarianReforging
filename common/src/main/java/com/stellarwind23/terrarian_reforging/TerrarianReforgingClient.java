@@ -20,8 +20,8 @@ public class TerrarianReforgingClient {
             List<Component> extra = new ArrayList<>();
 
             if (qc != null && qc.quality().isBound()) {
-                int added = qc.printLines(lines::add);
-                if (added > 0 && stack.isEnchanted()) lines.add(CommonComponents.EMPTY);
+                if (stack.isEnchanted()) lines.add(CommonComponents.EMPTY);
+                qc.addToTooltip(tooltipContext, extra::add, flag);
             }
 
             if(sc != null) {
