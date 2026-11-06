@@ -1,14 +1,13 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "***",
-    "*#*",
-    "***"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:white_wool"
+    },
+    {
+      "item": "minecraft:copper_ingot"
+    }
   ],
-  "key": {
-    "*": { "item": "minecraft:copper_nugget" },
-    "#": { "tag": "minecraft:wool" }
-  },
   "result": {
     "id": "terrarian_reforging:copper_wool"
   }

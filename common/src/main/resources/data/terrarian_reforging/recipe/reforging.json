@@ -1,5 +1,5 @@
 {
-  "type": "terrarian_reforging:reforging",
+  "type": "terrarian_reforging:reforge",
   "template": { "item": "terrarian_reforging:reforging_token" },
   "base": { "tag": "terrarian_reforging:accepted_equipment" },
   "addition": { "tag": "terrarian_reforging:reforge_materials" }

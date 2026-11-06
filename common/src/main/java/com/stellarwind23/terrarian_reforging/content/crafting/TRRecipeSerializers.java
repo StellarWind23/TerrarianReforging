@@ -8,6 +8,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import org.jetbrains.annotations.NotNull;
 
 public class TRRecipeSerializers {
     private static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS =
@@ -17,12 +18,12 @@ public class TRRecipeSerializers {
             SERIALIZERS.register("reforge",
                     () -> new RecipeSerializer<>() {
                         @Override
-                        public MapCodec<TRReforgeRecipe> codec() {
+                        public @NotNull MapCodec<TRReforgeRecipe> codec() {
                             return TRReforgeRecipe.CODEC;
                         }
 
                         @Override
-                        public StreamCodec<RegistryFriendlyByteBuf, TRReforgeRecipe> streamCodec() {
+                        public @NotNull StreamCodec<RegistryFriendlyByteBuf, TRReforgeRecipe> streamCodec() {
                             return TRReforgeRecipe.STREAM_CODEC;
                         }
                     });
