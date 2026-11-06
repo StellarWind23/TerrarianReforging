@@ -9,7 +9,7 @@ version = "${mod_version}"
 authors = "${author}"
 description = "${description}"
 issueTrackerURL = "${issues_url}"
-logoFile = "/assets/${modid}/icon.png"
+logoFile = "assets/${modid}/icon.png"
 
 [[dependencies.${modid}]]
 modId = "neoforge"
