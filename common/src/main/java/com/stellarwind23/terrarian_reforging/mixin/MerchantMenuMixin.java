@@ -18,8 +18,8 @@ import java.util.Objects;
 public abstract class MerchantMenuMixin {
 
     @Inject(method = "quickMoveStack", at = @At("HEAD"))
-    private void tr$rollBeforeShiftMove(Player player, int i, CallbackInfoReturnable<ItemStack> cir) {
-        if (i != 2 || player.level().isClientSide()) return;   // 2 = trade result slot
+    private void tr$rollBeforeShiftMove(Player player, int slotIndex, CallbackInfoReturnable<ItemStack> cir) {
+        if (slotIndex != 2 || player.level().isClientSide()) return;   // 2 = trade result slot
 
         ItemStack result = ((AbstractContainerMenu) (Object) this).getSlot(2).getItem();
         TRQualityRoller.tryRollNew(player.level().registryAccess(), result, player.getRandom(), Objects.requireNonNull(player.getAttribute(Attributes.LUCK)).getValue(), TerrarianReforgingConfig.trading_modifier_chance);

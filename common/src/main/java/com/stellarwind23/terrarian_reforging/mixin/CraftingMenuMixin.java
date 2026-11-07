@@ -18,8 +18,8 @@ import java.util.Objects;
 public abstract class CraftingMenuMixin {
 
     @Inject(method = "quickMoveStack", at = @At("HEAD"))
-    private void tr$rollBeforeShiftMove(Player player, int i, CallbackInfoReturnable<ItemStack> cir) {
-        if (i != 0 || player.level().isClientSide()) return;   // 0 = result slot
+    private void tr$rollBeforeShiftMove(Player player, int slotIndex, CallbackInfoReturnable<ItemStack> cir) {
+        if (slotIndex != 0 || player.level().isClientSide()) return;   // 0 = result slot
 
         ItemStack result = ((AbstractContainerMenu) (Object) this).getSlot(0).getItem();
         TRQualityRoller.tryRollNew(player.level().registryAccess(), result, player.getRandom(), Objects.requireNonNull(player.getAttribute(Attributes.LUCK)).getValue(), TerrarianReforgingConfig.crafting_modifier_chance);

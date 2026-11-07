@@ -15,18 +15,8 @@ public class TRRecipeSerializers {
             DeferredRegister.create(TerrarianReforging.MOD_ID, Registries.RECIPE_SERIALIZER);
 
     public static final RegistrySupplier<RecipeSerializer<TRReforgeRecipe>> REFORGE =
-            SERIALIZERS.register("reforge",
-                    () -> new RecipeSerializer<>() {
-                        @Override
-                        public @NonNull MapCodec<TRReforgeRecipe> codec() {
-                            return TRReforgeRecipe.CODEC;
-                        }
-
-                        @Override
-                        public @NonNull StreamCodec<RegistryFriendlyByteBuf, TRReforgeRecipe> streamCodec() {
-                            return TRReforgeRecipe.STREAM_CODEC;
-                        }
-                    });
+            SERIALIZERS.register("reforging",
+                    () -> new RecipeSerializer<>(TRReforgeRecipe.CODEC, TRReforgeRecipe.STREAM_CODEC));
 
     public static void init() { SERIALIZERS.register(); }
 }

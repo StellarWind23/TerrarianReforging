@@ -4,7 +4,6 @@ import com.stellarwind23.terrarian_reforging.TerrarianReforging;
 import com.stellarwind23.terrarian_reforging.TerrarianReforgingClient;
 import com.stellarwind23.terrarian_reforging.config.TerrarianReforgingConfig;
 import com.stellarwind23.terrarian_reforging.content.component.TRQuality;
-import com.stellarwind23.terrarian_reforging.content.crafting.TRTrades;
 import eu.midnightdust.lib.config.MidnightConfig;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;

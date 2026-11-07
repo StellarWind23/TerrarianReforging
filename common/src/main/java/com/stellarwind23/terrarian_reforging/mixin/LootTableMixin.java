@@ -25,14 +25,14 @@ public abstract class LootTableMixin {
     @ModifyVariable(
             method = "getRandomItemsRaw(Lnet/minecraft/world/level/storage/loot/LootContext;Ljava/util/function/Consumer;)V",
             at = @At("HEAD"), argsOnly = true)
-    private Consumer<ItemStack> tr$rollLootQuality(Consumer<ItemStack> consumer, LootContext lootContext) {
-        if (getParamSet() != LootContextParamSets.CHEST) return consumer;   // chests only, delete this line for every table
+    private Consumer<ItemStack> tr$rollLootQuality(Consumer<ItemStack> output, LootContext context) {
+        if (getParamSet() != LootContextParamSets.CHEST) return output;   // chests only, delete this line for every table
 
-        ServerLevel level = lootContext.getLevel();
-        RandomSource rnd = lootContext.getRandom();
+        ServerLevel level = context.getLevel();
+        RandomSource rnd = context.getRandom();
         return stack -> {
-            TRQualityRoller.tryRollNew(level.registryAccess(), stack, rnd, lootContext.getLuck(), TerrarianReforgingConfig.loot_table_modifier_chance);
-            consumer.accept(stack);
+            TRQualityRoller.tryRollNew(level.registryAccess(), stack, rnd, context.getLuck(), TerrarianReforgingConfig.loot_table_modifier_chance);
+            output.accept(stack);
         };
     }
 }

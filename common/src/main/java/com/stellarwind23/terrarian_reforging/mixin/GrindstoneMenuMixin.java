@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.At;
 public class GrindstoneMenuMixin {
 
     @ModifyReturnValue(method = "computeResult", at = @At("RETURN"))
-    private ItemStack tr$special(ItemStack original, ItemStack itemStack, ItemStack itemStack2) {
-        var k = TRGrindstone.kind(itemStack, itemStack2);
-        return k == TRGrindstone.Kind.NONE ? original : TRGrindstone.result(k, itemStack, itemStack2);
+    private ItemStack tr$special(ItemStack original, ItemStack input, ItemStack additional) {
+        var k = TRGrindstone.kind(input, additional);
+        return k == TRGrindstone.Kind.NONE ? original : TRGrindstone.result(k, input, additional);
     }
 }

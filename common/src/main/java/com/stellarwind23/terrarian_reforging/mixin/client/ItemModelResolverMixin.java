@@ -3,9 +3,9 @@ package com.stellarwind23.terrarian_reforging.mixin.client;
 import com.stellarwind23.terrarian_reforging.content.component.TRDataComponentTypes;
 import com.stellarwind23.terrarian_reforging.content.component.TRQualityComponent;
 import com.stellarwind23.terrarian_reforging.util.client.TRHideReforgeState;
-import net.minecraft.client.renderer.block.model.ItemTransform;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.resources.model.cuboid.ItemTransform;
 import net.minecraft.world.entity.ItemOwner;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -23,32 +23,32 @@ public abstract class ItemModelResolverMixin {
             method = "updateForTopItem",
             at = @At("TAIL")
     )
-    private void tr$applyQualityScale(ItemStackRenderState itemStackRenderState, ItemStack itemStack,
-                                      ItemDisplayContext itemDisplayContext, Level level, ItemOwner itemOwner,
+    private void tr$applyQualityScale(ItemStackRenderState output, ItemStack item,
+                                      ItemDisplayContext displayContext, Level level, ItemOwner owner,
                                       int i, CallbackInfo ci) {
 
-        TRQualityComponent qc = itemStack.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
+        TRQualityComponent qc = item.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
         if (qc == null || !qc.quality().isBound()) return;
 
         //Hide size modifier
         if(TRHideReforgeState.hideQuality()) return;
 
-        float s = qc.quality().value().scaleFor(itemDisplayContext);
+        float s = qc.quality().value().scaleFor(displayContext);
         if (s == 1F) return;
 
-        var acc = (ItemStackRenderStateAccessor) itemStackRenderState;
+        var acc = (ItemStackRenderStateAccessor) output;
         var layers = acc.tr$layers();
 
         for (int n = 0; n < acc.tr$activeLayerCount(); n++) {
             var layer = layers[n];
             ItemTransform old = ((LayerRenderStateAccessor) layer).tr$getTransform();
 
-            layer.setTransform(new ItemTransform(
+            layer.setItemTransform(new ItemTransform(
                     new Vector3f(old.rotation()),
                     new Vector3f(old.translation()),
                     new Vector3f(old.scale()).mul(s)));   // base_scale * modifier
         }
 
-        itemStackRenderState.appendModelIdentityElement(s);   // keeps the GUI cache from sharing images
+        output.appendModelIdentityElement(s);   // keeps the GUI cache from sharing images
     }
 }

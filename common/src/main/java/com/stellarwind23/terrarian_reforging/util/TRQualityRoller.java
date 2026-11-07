@@ -32,7 +32,7 @@ public final class TRQualityRoller {
 
         return regs.lookupOrThrow(TerrarianReforging.REG_KEY).listElements()
                 .filter(h -> !cur.map(h::is).orElse(false))
-                .filter(h -> h.value().applicableTo().contains(stack.getItemHolder()))
+                .filter(h -> h.value().applicableTo().contains(stack.typeHolder()))
                 .toList();
     }
 
@@ -105,6 +105,6 @@ public final class TRQualityRoller {
     }
 
     public static boolean supports(Holder<TRQuality> quality, ItemStack stack) {
-        return quality.value().applicableTo().contains(stack.getItemHolder());
+        return quality.value().applicableTo().contains(stack.typeHolder());
     }
 }

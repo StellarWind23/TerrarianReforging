@@ -1,0 +1,7 @@
+{
+  "wants": { "id": "minecraft:emerald", "count": 19 },
+  "gives": { "id": "terrarian_reforging:reforging_token", "count": 1 },
+  "max_uses": 3,
+  "xp": 15,
+  "reputation_discount": 0.05
+}

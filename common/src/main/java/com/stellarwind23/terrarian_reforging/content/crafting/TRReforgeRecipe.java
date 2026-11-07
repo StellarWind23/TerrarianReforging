@@ -19,6 +19,8 @@ import java.util.Optional;
 
 public record TRReforgeRecipe(Ingredient template, Ingredient base, Ingredient addition) implements SmithingRecipe {
 
+    private static volatile HolderLookup.Provider LAST_REGS;
+
     public static final MapCodec<TRReforgeRecipe> CODEC = RecordCodecBuilder.mapCodec(r -> r.group(
             Ingredient.CODEC.fieldOf("template").forGetter(TRReforgeRecipe::template),
             Ingredient.CODEC.fieldOf("base").forGetter(TRReforgeRecipe::base),
@@ -33,6 +35,7 @@ public record TRReforgeRecipe(Ingredient template, Ingredient base, Ingredient a
 
     @Override
     public boolean matches(@NonNull SmithingRecipeInput smithingRecipeInput, @NonNull Level level) {
+        LAST_REGS = level.registryAccess();
         if (!template.test(smithingRecipeInput.template()) || !base.test(smithingRecipeInput.base()) || !addition.test(smithingRecipeInput.addition())) return false;
 
         Repairable repairable = smithingRecipeInput.base().get(DataComponents.REPAIRABLE);
@@ -57,11 +60,23 @@ public record TRReforgeRecipe(Ingredient template, Ingredient base, Ingredient a
     }
 
     @Override
-    public @NonNull ItemStack assemble(SmithingRecipeInput in, HolderLookup.@NonNull Provider registries) {
+    public @NonNull ItemStack assemble(SmithingRecipeInput in) {
         ItemStack out = in.base().copyWithCount(1);
-        return TRQualityRoller.roll(registries, out, RandomSource.create())
+        HolderLookup.Provider regs = LAST_REGS;
+        if (regs == null) return ItemStack.EMPTY;
+        return TRQualityRoller.roll(regs, out, RandomSource.create(), 0)
                 .map(q -> { TRQualityRoller.apply(out, q); return out; })
                 .orElse(ItemStack.EMPTY);
+    }
+
+    @Override
+    public boolean showNotification() {
+        return false;
+    }
+
+    @Override
+    public @NonNull String group() {
+        return "";
     }
 
     @Override

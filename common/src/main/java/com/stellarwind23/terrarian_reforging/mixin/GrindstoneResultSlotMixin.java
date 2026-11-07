@@ -15,8 +15,8 @@ import org.spongepowered.asm.mixin.injection.At;
 public class GrindstoneResultSlotMixin {
 
     @WrapMethod(method = "onTake")
-    private void tr$keepTool(Player arg, ItemStack arg2, Operation<Void> original) {
-        if (arg.containerMenu instanceof GrindstoneMenu menu) {
+    private void tr$keepTool(Player player, ItemStack carried, Operation<Void> original) {
+        if (player.containerMenu instanceof GrindstoneMenu menu) {
             Container in = ((GrindstoneMenuAccessor) menu).tr$repairSlots();
             ItemStack a = in.getItem(0), b = in.getItem(1);
             if (TRGrindstone.kind(a, b) != TRGrindstone.Kind.NONE) {
@@ -27,12 +27,12 @@ public class GrindstoneResultSlotMixin {
                 leftover.setDamageValue(dmg);
 
                 TRGrindstone.NO_XP.set(true);
-                try { original.call(arg, arg2); } finally { TRGrindstone.NO_XP.remove(); }
+                try { original.call(player, carried); } finally { TRGrindstone.NO_XP.remove(); }
                 if (!worn) in.setItem(idx, leftover);
                 return;
             }
         }
-        original.call(arg, arg2);
+        original.call(player, carried);
     }
 
     @ModifyReturnValue(method = "getExperienceFromItem", at = @At("RETURN"))

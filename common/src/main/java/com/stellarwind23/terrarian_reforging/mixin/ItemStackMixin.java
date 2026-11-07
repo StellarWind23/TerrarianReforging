@@ -43,17 +43,17 @@ public abstract class ItemStackMixin {
             method = "forEachModifier(Lnet/minecraft/world/entity/EquipmentSlot;Ljava/util/function/BiConsumer;)V",
             at = @At("TAIL")
     )
-    private void tr$addQualityModifiers(EquipmentSlot equipmentSlot, BiConsumer<Holder<Attribute>, AttributeModifier> biConsumer, CallbackInfo ci)
+    private void tr$addQualityModifiers(EquipmentSlot slot, BiConsumer<Holder<Attribute>, AttributeModifier> consumer, CallbackInfo ci)
     {
         var self = ((ItemStack) (Object) this);
         TRQualityComponent qc = self.get(TRDataComponentTypes.TR_QUALITY_COMPONENT.get());
 
         //Handle sharpened component
         var sh = self.get(TRDataComponentTypes.TR_SHARPENED_COMPONENT.get());
-        if (sh != null) sh.forEachModifier(equipmentSlot, biConsumer);
+        if (sh != null) sh.forEachModifier(slot, consumer);
 
         if(qc != null) {
-            qc.forEachModifier(equipmentSlot, biConsumer);
+            qc.forEachModifier(slot, consumer);
         }
     }
 
@@ -100,8 +100,8 @@ public abstract class ItemStackMixin {
             method = "forEachModifier(Lnet/minecraft/world/entity/EquipmentSlotGroup;Lorg/apache/commons/lang3/function/TriConsumer;)V",
             at = @At("HEAD"), argsOnly = true)
     private TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> tr$foldQuality(
-            TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> triConsumer,
-            EquipmentSlotGroup equipmentSlotGroup) {
-        return TRTooltipFolding.wrap((ItemStack) (Object) this, equipmentSlotGroup, triConsumer);
+            TriConsumer<Holder<Attribute>, AttributeModifier, ItemAttributeModifiers.Display> consumer,
+            EquipmentSlotGroup slot) {
+        return TRTooltipFolding.wrap((ItemStack) (Object) this, slot, consumer);
     }
 }
