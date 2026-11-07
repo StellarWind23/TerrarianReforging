@@ -3,18 +3,17 @@ architectury {
 }
 
 repositories {
-    maven { url "https://maven.terraformersmc.com/releases/"}
-    maven {url = "https://api.modrinth.com/maven"}
+    maven { url "https://maven.terraformersmc.com/releases/" }
+    maven { url "https://api.modrinth.com/maven" }
 }
 
 dependencies {
-    // We depend on Fabric Loader here to use the Fabric @Environment annotations,
-    // which get remapped to the correct annotations on each platform.
+    // Fabric Loader is only here for the @Environment annotations.
     // Do NOT use other classes from Fabric Loader.
-    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+    implementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
 
-    modImplementation "dev.architectury:architectury:$rootProject.architectury_api_version"
+    implementation "dev.architectury:architectury:$rootProject.architectury_api_version"
 
-    //DO NOT USE ANY FABRIC SPECIFIC CLASSES!!!
-    modImplementation "maven.modrinth:midnightlib:${project.midnightlib_version}+${project.minecraft_version}-fabric"
+    // DO NOT USE ANY FABRIC SPECIFIC CLASSES!!!
+    implementation "maven.modrinth:codAaoxh:B2yvJDvr"
 }

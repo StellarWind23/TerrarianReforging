@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.johnrengelman.shadow'
+    id 'com.gradleup.shadow'
 }
 
 repositories {
@@ -37,12 +37,12 @@ repositories {
 
 dependencies {
     neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
-    modImplementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
+    implementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
 
-    //Midnight lib
-    modImplementation "maven.modrinth:midnightlib:${project.midnightlib_version}+${project.minecraft_version}-neoforge"
+    // Midnight lib
+    implementation "maven.modrinth:codAaoxh:WQfVY6eb"
 
-    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
+    common(project(':common')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 }
 
@@ -73,11 +73,13 @@ processResources {
     }
 }
 
-shadowJar {
-    configurations = [project.configurations.shadowBundle]
-    archiveClassifier = 'dev-shadow'
+jar {
+    archiveClassifier = 'dev'
 }
 
-remapJar {
-    input.set shadowJar.archiveFile
+shadowJar {
+    configurations = [project.configurations.shadowBundle]
+    archiveClassifier = ''
 }
+
+assemble.dependsOn shadowJar

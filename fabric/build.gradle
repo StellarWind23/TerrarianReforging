@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.johnrengelman.shadow'
+    id 'com.gradleup.shadow'
 }
 
 architectury {
@@ -30,19 +30,22 @@ repositories {
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
-    modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
+    implementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+    implementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
+    implementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
 
-    //Mod Menu
-    modCompileOnly modRuntimeOnly ("com.terraformersmc:modmenu:${project.mod_menu_version}"), {
+    // Mod Menu
+    compileOnly("com.terraformersmc:modmenu:${project.mod_menu_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+    runtimeOnly("com.terraformersmc:modmenu:${project.mod_menu_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
     //Midnight lib
-    modImplementation "maven.modrinth:midnightlib:${project.midnightlib_version}+${project.minecraft_version}-fabric"
+    implementation "maven.modrinth:codAaoxh:B2yvJDvr"
 
-    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
+    common(project(':common')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 }
 
@@ -74,11 +77,13 @@ processResources {
     }
 }
 
-shadowJar {
-    configurations = [project.configurations.shadowBundle]
-    archiveClassifier = 'dev-shadow'
+jar {
+    archiveClassifier = 'dev'
 }
 
-remapJar {
-    input.set shadowJar.archiveFile
+shadowJar {
+    configurations = [project.configurations.shadowBundle]
+    archiveClassifier = ''   // this is the final, distributable jar
 }
+
+assemble.dependsOn shadowJar
